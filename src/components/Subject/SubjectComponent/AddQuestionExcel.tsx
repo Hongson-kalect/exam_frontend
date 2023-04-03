@@ -22,7 +22,10 @@ export function AddQuestionExcel(props: IAddQuestionExcelProps) {
     const data = new FormData();
     if (file) data.append("upload_file", fileRef?.current?.files?.[0] || "qq");
     // console.log(fetchTest);
-    axios.post("http://localhost:3001/api/question/add-excel", data);
+    axios.post(
+      "https://exam-backend-6rnv.onrender.com/api/question/add-excel",
+      data
+    );
     // const fetchTest = await fetchData("testlink", "post", data);
   };
   return (
