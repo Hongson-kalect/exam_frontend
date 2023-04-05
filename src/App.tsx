@@ -19,29 +19,40 @@ import "react-toastify/dist/ReactToastify.css";
 import SubjectInfo from "./components/Subject/SubjectInfo";
 import TestLayout from "./components/Testcomponent";
 import TestLayout2 from "./components/Testcomponent2";
+import { Spin } from "antd";
+import { useAppState } from "./stores/appState";
 
 function App() {
+  const appState = useAppState();
   return (
     <StyledEngineProvider injectFirst>
       <ToastContainer />
       <BrowserRouter>
+        {appState.isLoading && (
+          <div className="loading flex justify-center items-center fixed top-0 bottom-0 right-0 left-0 z-10">
+            <Spin size="large" />
+          </div>
+        )}
         <Routes>
           <Route path="/test" element={<Test />} />
           <Route path="/test-layout" element={<TestLayout />} />
           <Route path="/test-layout-2" element={<TestLayout2 />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login appState={appState} />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<Subject />} />
-          <Route path="/:subject" element={<SubjectLayout />}>
-            <Route index element={<Home />} />
+          <Route
+            path="/:subject"
+            element={<SubjectLayout appState={appState} />}
+          >
+            <Route index element={<Home appState={appState} />} />
             <Route path="info" element={<SubjectInfo />} />
-            <Route path="question" element={<Question />} />
+            <Route path="question" element={<Question appState={appState} />} />
             <Route path="subject_test" element={<SubjectTest />} />
             <Route path="create_exam" element={<CreateExam />} />
             <Route path=":room/detail" element={<TestRoomDetail />} />
-            <Route path="*" element={<Home />} />
+            <Route path="*" element={<Home appState={appState} />} />
           </Route>
-          <Route path="/exam" element={<Exam />} />
+          <Route path="/exam" element={<Exam appState={appState} />} />
         </Routes>
       </BrowserRouter>
     </StyledEngineProvider>

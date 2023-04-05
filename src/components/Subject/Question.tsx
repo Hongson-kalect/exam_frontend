@@ -11,8 +11,11 @@ import { getSession } from "../../utils/session";
 import useExamState from "../../stores/examStates";
 import useUserState from "../../stores/userState";
 import { AddQuestionExcel } from "./SubjectComponent/AddQuestionExcel";
+import { IAppState } from "../../stores/appState";
 
-export interface IQuestionProps {}
+export interface IQuestionProps {
+  appState: IAppState;
+}
 
 export interface IQuestion {
   id: number;
@@ -26,7 +29,7 @@ export interface IQuestion {
   updatedAt: string;
 }
 
-export default function Question(props: IQuestionProps) {
+export default function Question({ appState }: IQuestionProps) {
   const examState = useExamState();
   const userState = useUserState();
   const [searchVal, setSearchVal] = React.useState("");
@@ -49,18 +52,16 @@ export default function Question(props: IQuestionProps) {
     }
   };
   const loadQuestion = async () => {
-    // const fetchBody = {
-    //   id: userState.userId,
-    //   subjectId: examState.subjectId,
-    // };
-    let fetchRes = await fetchData("question/get-type", "get");
-    setTypes(fetchRes.data);
-    fetchRes = await fetchData(
+    appState.setIsLoading(true);
+    let fetchResType = await fetchData("question/get-type", "get");
+    let fetchRes = await fetchData(
       `question/get?input=${searchVal}&type=${searchType}&level=${searchLevel}&subjectId=${
         examState.subjectId
       }&userId=${userState.userId || null}`,
       "get"
     );
+    appState.setIsLoading(false);
+    setTypes(fetchResType.data);
     if (fetchRes.status === 1) setQuestions(fetchRes.data);
   };
   React.useEffect(() => {

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { IAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
 import { checkValidTime } from "../../../utils/functions";
 import { getLocalStorage, setLocalStorage } from "../../../utils/localStorage";

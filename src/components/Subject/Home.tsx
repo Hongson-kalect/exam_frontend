@@ -7,15 +7,19 @@ import { getLocalStorage } from "../../utils/localStorage";
 import { getCookie } from "../../utils/cookie";
 import useExamState from "../../stores/examStates";
 import useUserState from "../../stores/userState";
+import { IAppState } from "../../stores/appState";
 
-export interface IExamRoomListProps {}
+export interface IExamRoomListProps {
+  appState: IAppState;
+}
 
-export default function ExamRoomList({}: IExamRoomListProps) {
+export default function ExamRoomList({ appState }: IExamRoomListProps) {
   const examState = useExamState();
   const userState = useUserState();
 
   const [testRooms, setTestRooms] = React.useState<any[]>([]);
   const getTestRooms = async () => {
+    appState.setIsLoading(true);
     const fetchRes = await fetchData(
       "test-room/get/?subjectId=" +
         examState.subjectId +
@@ -23,9 +27,9 @@ export default function ExamRoomList({}: IExamRoomListProps) {
         userState.userId,
       "get"
     );
+    appState.setIsLoading(false);
     if (fetchRes.status === 1) setTestRooms(fetchRes.data);
     if (fetchRes.status === 0) alert(fetchRes.message);
-    console.log(fetchRes);
   };
   React.useEffect(() => {
     getTestRooms();

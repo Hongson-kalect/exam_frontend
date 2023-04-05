@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Add, Login, UploadOutlined } from "@mui/icons-material";
-import { Modal, Button, Form, Input, Upload, Image } from "antd";
+import { Modal, Button, Form, Input, Upload, Image, Spin } from "antd";
 import { getCookie, setCookie } from "../../utils/cookie";
 import { fetchData } from "../../utils/fetchFunction";
 import { SubjectCard } from "./SubjectComponent/SubjectCard";
@@ -21,6 +21,8 @@ window.addEventListener("beforeunload", (ev) => {
 
 export function Subject(props: ISubjectProps) {
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const examState = useExamState();
   const userState = useUserState();
@@ -51,7 +53,9 @@ export function Subject(props: ISubjectProps) {
       hash: v4(),
       host: userState.userId,
     };
+    setIsLoading(true);
     const fetchRes = await fetchData("subject", "POST", fetchBody);
+    setIsLoading(false);
     if (fetchRes.status === 1) {
       alert("Add subject success");
       handleFormClose();
@@ -59,11 +63,12 @@ export function Subject(props: ISubjectProps) {
     }
   };
   const handleHashJoin = async () => {
+    setIsLoading(true);
     const JoinResult = await fetchData("subject/join", "post", {
       hash,
       id: userState.userId,
     });
-    console.log(JoinResult);
+    setIsLoading(false);
     if (JoinResult.status === 1) {
       toast.success("Join subject success");
       getSubjects();
@@ -86,6 +91,11 @@ export function Subject(props: ISubjectProps) {
 
   return (
     <div>
+      {isLoading && (
+        <div className="loading flex justify-center items-center fixed top-0 bottom-0 right-0 left-0 z-10">
+          <Spin size="large" />
+        </div>
+      )}
       <main className="flex items-start justify-center h-full w-full">
         <div className="subject-contain items-start flex flex-col h-full w-full overflow-auto hide-scroll">
           <div className="flex w-full justify-center mt-2 mr-2">

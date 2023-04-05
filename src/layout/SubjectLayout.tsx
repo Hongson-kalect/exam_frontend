@@ -20,14 +20,16 @@ import { getLocalStorage } from "../utils/localStorage";
 import { getCookie } from "../utils/cookie";
 import { toast } from "react-toastify";
 import { getSession, setSession } from "../utils/session";
-import { Modal } from "antd";
+import { Modal, Spin } from "antd";
 import { MemberManage } from "../components/Subject/SubjectComponent/MemberManage";
 import useExamState from "../stores/examStates";
 import useUserState from "../stores/userState";
+import { IAppState } from "../stores/appState";
 
 export interface ISubjectProps {
   children?: React.ReactNode;
   Layout?: React.FC;
+  appState: IAppState;
 }
 
 export function Subject(props: ISubjectProps) {
@@ -69,7 +71,9 @@ export function Subject(props: ISubjectProps) {
           subjectId: examState.subjectId,
           id: userState.userId,
         };
+        props.appState.setIsLoading(true);
         const leaveRes = await fetchData("subject/leave", "post", fetchBody);
+        props.appState.setIsLoading(false);
         if (leaveRes.status === 1) {
           toast.success("Leave room completed");
           navigate("/");
@@ -91,11 +95,13 @@ export function Subject(props: ISubjectProps) {
           subjectId: examState.subjectId,
           id: userState.userId,
         };
+        props.appState.setIsLoading(true);
         const fetchRes: any = await fetchData(
           "subject/disband",
           "post",
           fetchBody
         );
+        props.appState.setIsLoading(false);
         if (fetchRes.status === 1) {
           toast.success("Delete Completed");
           navigate("/");

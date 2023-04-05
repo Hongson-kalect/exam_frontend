@@ -9,10 +9,13 @@ import { useNavigate } from "react-router-dom";
 import useExamState from "../stores/examStates";
 import useTestingState from "../stores/testingState";
 import useUserState from "../stores/userState";
+import { IAppState } from "../stores/appState";
 
-export interface IExamProps {}
+export interface IExamProps {
+  appState: IAppState;
+}
 
-export default function Exam(props: IExamProps) {
+export default function Exam({ appState }: IExamProps) {
   const navigate = useNavigate();
 
   const examState = useExamState();
@@ -40,8 +43,7 @@ export default function Exam(props: IExamProps) {
   };
 
   const checkUnSubmit = async () => {
-    console.log(timeStart);
-    console.log("clmm");
+    appState.setIsLoading(true);
     const getUnsubmit = await fetchData(
       "history/unsubmit?roomId=" +
         examState.roomId +
@@ -51,7 +53,7 @@ export default function Exam(props: IExamProps) {
         userState.userId,
       "get"
     );
-    console.log(getUnsubmit);
+    appState.setIsLoading(false);
     if (getUnsubmit.status === 1) {
       if (getUnsubmit.data) {
         setTimeStart(getUnsubmit.data.createdAt);
@@ -62,11 +64,13 @@ export default function Exam(props: IExamProps) {
           roomId: examState.roomId,
           userAnser: getUnsubmit.data.userAnser,
         };
+        appState.setIsLoading(true);
         const getContinue = await fetchData(
           "exam/get-contineu",
           "post",
           fetchBody
         );
+        appState.setIsLoading(false);
         setUserAnser(getUnsubmit.data.userAnser.split("|"));
         testingState.setTimeAttempt(getUnsubmit.data.timeAttemp);
         setHistoryId(getUnsubmit.data.id);
@@ -80,6 +84,7 @@ export default function Exam(props: IExamProps) {
   };
 
   const getExam = async () => {
+    appState.setIsLoading(true);
     const fetchDetail = await fetchData(
       "exam/get?subjectId=" +
         examState.subjectId +
@@ -89,7 +94,7 @@ export default function Exam(props: IExamProps) {
         userState.userId,
       "get"
     );
-    console.log(getExam);
+    appState.setIsLoading(false);
     setTimeStart(new Date().toISOString());
     setLimitTime(fetchDetail.data.limitTime);
     setExam(fetchDetail.data);
@@ -121,8 +126,9 @@ export default function Exam(props: IExamProps) {
       questions: exam.questions,
       historyId: historyId || null,
     };
+    appState.setIsLoading(true);
     const fetchRes = await fetchData("exam/submit", "post", fetchBody);
-    console.log(fetchRes.data);
+    appState.setIsLoading(false);
     setResult(fetchRes.data);
     setIsTestSubmit(true);
   };
@@ -136,9 +142,7 @@ export default function Exam(props: IExamProps) {
       timeAttemp: testingState.timeAttempt,
       historyId: historyId || null,
     };
-    console.log(fetchBody);
-    const aa = await fetchData("exam/close-tab", "post", fetchBody);
-    console.log(aa);
+    await fetchData("exam/close-tab", "post", fetchBody);
   };
   const GetTimeDiffer = (time1: string, time2: string) => {
     const date1 = new Date(time1);

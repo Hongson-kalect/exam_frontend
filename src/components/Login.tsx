@@ -4,19 +4,21 @@ import {
   Google,
   Facebook,
 } from "@mui/icons-material";
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { IAppState } from "../stores/appState";
 import useUserState from "../stores/userState";
 import { setCookie } from "../utils/cookie";
 import { fetchData } from "../utils/fetchFunction";
 import { setLocalStorage } from "../utils/localStorage";
 
-export interface ILoginProps {}
+export interface ILoginProps {
+  appState: IAppState;
+}
 
-export function Login(props: ILoginProps) {
-  //   sessionStorage.setItem("lastname", "Smith");
+export function Login({ appState }: ILoginProps) {
   const navigate = useNavigate();
   const userState = useUserState();
   const [isShowPassword, setIsShowPassword] = React.useState(false);
@@ -29,7 +31,9 @@ export function Login(props: ILoginProps) {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       };
+      appState.setIsLoading(true);
       const response = await fetchData("login", "POST", fetchBody);
+      appState.setIsLoading(false);
       if (response.status === 1) {
         userState.setUserId(response.data.token);
         userState.setAvatar(response.data.avatar || "");
