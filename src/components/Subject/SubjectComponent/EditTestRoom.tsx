@@ -73,6 +73,7 @@ export default function EditTestRoom({
   const [allowSeeExplane, setAllowSeeExplane] = React.useState<boolean>(false);
   const [allowSeeResult, setAllowSeeResult] = React.useState<boolean>(false);
   const [allowSeeScore, setAllowSeeScore] = React.useState<boolean>(false);
+  const [isFreeTest, setIsFreeTest] = React.useState<boolean>(false);
 
   const getData = async () => {
     appState.setIsLoading(true);
@@ -117,6 +118,7 @@ export default function EditTestRoom({
       allowSeeExplane,
       allowSeeResult,
       allowSeeScore,
+      isFreeTest,
       userId: userState.userId,
       subjectId: examState.subjectId,
       testRoomId: examState.roomId,
@@ -313,6 +315,12 @@ export default function EditTestRoom({
               onChange={() => setAllowSeeScore(!allowSeeScore)}
             />
           </Form.Item>
+        </Form.Item>
+        <Form.Item label="Free Test" className="w-1/3 inline-block">
+          <Checkbox
+            checked={isFreeTest}
+            onChange={() => setIsFreeTest(!isFreeTest)}
+          />
         </Form.Item>
         <Form.Item label="Max attemp">
           <InputNumber
