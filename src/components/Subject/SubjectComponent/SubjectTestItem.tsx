@@ -1,6 +1,7 @@
 import { Delete, Edit } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import * as React from "react";
+import { useAppState } from "../../../stores/appState";
 import { fetchData } from "../../../utils/fetchFunction";
 import { getSession } from "../../../utils/session";
 
@@ -19,6 +20,7 @@ export interface ILineTestSubjectProps {
 }
 
 export default function SubjectTestItem(props: ILineTestSubjectProps) {
+  const appState = useAppState();
   const handleEditButon = (e: any) => {
     const data = e.target.closest(".edit").dataset.info;
     props.setEditInfo(data);
@@ -28,7 +30,9 @@ export default function SubjectTestItem(props: ILineTestSubjectProps) {
     const id = e.target.closest(".delete").dataset.id;
     const yes = window.confirm("Are you sure about delete test " + id);
     if (yes) {
+      appState.setIsLoading(true);
       await fetchData("test/del/" + id, "delete");
+      appState.setIsLoading(false);
       props.loadTest();
     }
   };

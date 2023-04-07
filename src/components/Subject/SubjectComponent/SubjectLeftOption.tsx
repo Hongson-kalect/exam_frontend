@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useAppState } from "../../../stores/appState";
 import useUserState from "../../../stores/userState";
 import { getCookie } from "../../../utils/cookie";
 import { fetchData } from "../../../utils/fetchFunction";
@@ -10,6 +11,7 @@ export interface ISubjectLeftOptionProps {
 }
 
 export function SubjectLeftOption(props: ISubjectLeftOptionProps) {
+  const appState = useAppState();
   const userState = useUserState();
   const [name, setName] = React.useState("");
   const [decribe, setDecribe] = React.useState("");
@@ -34,8 +36,9 @@ export function SubjectLeftOption(props: ISubjectLeftOptionProps) {
       upload: image,
       host: userState.userId,
     };
+    appState.setIsLoading(true);
     const fetchDate = await fetchData("subject", "POST", fetchBody);
-    console.log(fetchDate);
+    appState.setIsLoading(false);
   };
   const handleFormClose = () => {
     setAddModalOpen(false);

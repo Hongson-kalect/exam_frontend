@@ -4,6 +4,7 @@ import { useForm } from "antd/es/form/Form";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppState } from "../../stores/appState";
 import useExamState from "../../stores/examStates";
 import useUserState from "../../stores/userState";
 import { getCookie } from "../../utils/cookie";
@@ -15,6 +16,7 @@ export interface ISubjectInfoProps {}
 
 export default function SubjectInfo(props: ISubjectInfoProps) {
   const navigate = useNavigate();
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
 
@@ -39,12 +41,14 @@ export default function SubjectInfo(props: ISubjectInfoProps) {
         subjectId: examState.subjectId,
         id: userState.userId,
       };
+      appState.setIsLoading(true);
       const fetchRes = await fetchData(
         //better use room hash here
         "subject-info",
         "put",
         fetchBody
       );
+      appState.setIsLoading(false);
       if (fetchRes.status === 1) {
         toast.success("Change info success");
         navigate("home");
@@ -54,10 +58,12 @@ export default function SubjectInfo(props: ISubjectInfoProps) {
     } else setIsEdit(true);
   };
   const getSubjectInfo = async () => {
+    appState.setIsLoading(true);
     const fetchRes = await fetchData(
       "subject-info/" + examState.subjectId,
       "get"
     );
+    appState.setIsLoading(false);
     const info = fetchRes.data;
     if (info) {
       setName(info.name);

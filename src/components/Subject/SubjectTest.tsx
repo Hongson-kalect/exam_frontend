@@ -8,10 +8,12 @@ import { getCookie } from "../../utils/cookie";
 import { getSession } from "../../utils/session";
 import useExamState from "../../stores/examStates";
 import useUserState from "../../stores/userState";
+import { useAppState } from "../../stores/appState";
 
 export interface ISubjectTestProps {}
 
 export default function SubjectTest(props: ISubjectTestProps) {
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
 
@@ -24,6 +26,7 @@ export default function SubjectTest(props: ISubjectTestProps) {
   const [addModalOpen, setAddModalOpen] = React.useState(false);
 
   const loadTest = async () => {
+    appState.setIsLoading(true);
     const fetchRes: any = await fetchData(
       "test/get?input=" +
         searchVal +
@@ -33,7 +36,7 @@ export default function SubjectTest(props: ISubjectTestProps) {
         userState.userId,
       "get"
     );
-    console.log(fetchRes);
+    appState.setIsLoading(false);
     setTests(fetchRes.data);
   };
   React.useEffect(() => {

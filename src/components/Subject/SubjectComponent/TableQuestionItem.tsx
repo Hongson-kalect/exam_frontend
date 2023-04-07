@@ -5,6 +5,7 @@ import { fetchData } from "../../../utils/fetchFunction";
 import { IQuestion } from "../Question";
 import parser from "html-react-parser";
 import { getSession } from "../../../utils/session";
+import { useAppState } from "../../../stores/appState";
 
 export interface ITableQuestionItemProps {
   question: IQuestion;
@@ -19,6 +20,8 @@ export function TableQuestionItem({
   setIsEdit,
   setEditItem,
 }: ITableQuestionItemProps) {
+  const appState = useAppState();
+
   const [wrap, setWrap] = React.useState(true);
   const handleEdit = (e: any) => {
     setIsEdit(true);
@@ -28,8 +31,9 @@ export function TableQuestionItem({
     const id = e.target.closest(".delete").dataset.id;
     const yes = window.confirm("Are you want to delete question " + id);
     if (yes) {
+      appState.setIsLoading(true);
       const fetchRes: any = await fetchData("question/del/" + id, "delete");
-      console.log(fetchRes);
+      appState.setIsLoading(false);
       if (fetchRes.status === 1) {
         alert("delete complete");
         loadQuestion();

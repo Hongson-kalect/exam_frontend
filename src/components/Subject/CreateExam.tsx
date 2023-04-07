@@ -14,6 +14,7 @@ import { useForm } from "antd/es/form/Form";
 import { TransferDirection } from "antd/es/transfer";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppState } from "../../stores/appState";
 import useExamState from "../../stores/examStates";
 import useTestingState from "../../stores/testingState";
 import useUserState from "../../stores/userState";
@@ -36,9 +37,11 @@ interface TestType {
 
 export default function CreateExam(props: ICreateNewTestProps) {
   const navigate = useNavigate();
+
   const [form] = useForm();
   const [date, setDate] = React.useState("");
 
+  const appState = useAppState();
   const examState = useExamState();
   const testingState = useTestingState();
   const userState = useUserState();
@@ -49,10 +52,12 @@ export default function CreateExam(props: ICreateNewTestProps) {
   const getMock = async () => {
     // const tempTargetKeys = [];
     const tempMockData = [];
+    appState.setIsLoading(true);
     const fetchQuestions = await fetchData(
       `test/get/${examState.subjectId || "null"}`,
       "get"
     );
+    appState.setIsLoading(false);
     console.log(fetchQuestions);
     const data = fetchQuestions.data;
     for (let i = 0; i < data.length; i++) {
@@ -83,7 +88,9 @@ export default function CreateExam(props: ICreateNewTestProps) {
       subjectId: examState.subjectId,
       userId: userState.userId,
     };
+    appState.setIsLoading(true);
     const fetchRes = await fetchData("test-room", "POST", fetchBody);
+    appState.setIsLoading(false);
     if (fetchRes.status === 0) {
       alert(fetchRes.message);
     }

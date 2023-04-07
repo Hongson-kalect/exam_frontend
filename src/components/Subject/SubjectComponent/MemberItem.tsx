@@ -4,6 +4,7 @@ import { type } from "os";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
 import useUserState from "../../../stores/userState";
 import { getCookie } from "../../../utils/cookie";
@@ -25,12 +26,14 @@ export function MemberItem({
   getMember,
 }: IMemberItemProps) {
   const navigate = useNavigate();
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
 
   const [permission] = React.useState(() => getSession("permission"));
   const [memberInfo, setMemberInfo] = React.useState<any>({});
   const getMemberInfo = async () => {
+    appState.setIsLoading(true);
     const infoRes = await fetchData(
       "member/info?email=" +
         email +
@@ -40,6 +43,7 @@ export function MemberItem({
         userState.userId,
       "get"
     );
+    appState.setIsLoading(false);
     if (infoRes.status === 1) {
       setMemberInfo(infoRes.data);
       getMember();
@@ -57,11 +61,13 @@ export function MemberItem({
         subjectId: examState.subjectId,
         email: e.target.dataset.email,
       };
+      appState.setIsLoading(true);
       const makeHostRes = await fetchData(
         "subject/make-host",
         "post",
         fetchBody
       );
+      appState.setIsLoading(false);
       if (makeHostRes.status === 1) {
         getMember();
         navigate("/");
@@ -77,11 +83,13 @@ export function MemberItem({
         subjectId: examState.subjectId,
         email: e.target.dataset.email,
       };
+      appState.setIsLoading(true);
       const removeDeputyRes = await fetchData(
         "subject/remove-deputy",
         "post",
         fetchBody
       );
+      appState.setIsLoading(false);
       if (removeDeputyRes.status === 1) {
         getMember();
       }
@@ -96,11 +104,13 @@ export function MemberItem({
         subjectId: examState.subjectId,
         email: e.target.dataset.email,
       };
+      appState.setIsLoading(true);
       const makeDeputyRes = await fetchData(
         "subject/make-deputy",
         "post",
         fetchBody
       );
+      appState.setIsLoading(false);
       if (makeDeputyRes.status === 1) {
         getMember();
       }
@@ -115,7 +125,9 @@ export function MemberItem({
         subjectId: examState.subjectId,
         email: e.target.dataset.email,
       };
+      appState.setIsLoading(true);
       const kicktRes = await fetchData("subject/kick", "post", fetchBody);
+      appState.setIsLoading(false);
       if (kicktRes.status === 1) {
         getMember();
       }

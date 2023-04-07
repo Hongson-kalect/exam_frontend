@@ -11,6 +11,7 @@ import { getCookie } from "../../../utils/cookie";
 import { getLocalStorage } from "../../../utils/localStorage";
 import useExamState from "../../../stores/examStates";
 import useUserState from "../../../stores/userState";
+import { useAppState } from "../../../stores/appState";
 
 export interface IAddSubjectModalProps {
   editInfo: string;
@@ -33,6 +34,7 @@ interface QuestionType {
 }
 
 export function AddSubjectTestModal(props: IAddSubjectModalProps) {
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
   const formRef = React.useRef<HTMLFormElement | null>(null);
@@ -57,8 +59,9 @@ export function AddSubjectTestModal(props: IAddSubjectModalProps) {
       subjectId: examState.subjectId,
       userId: userState.userId,
     };
-    console.log("fetchBody", fetchBody);
+    appState.setIsLoading(true);
     await fetchData("test", "post", fetchBody);
+    appState.setIsLoading(false);
     props.onCancel();
     props.loadTest();
     ClearForm();
@@ -74,7 +77,9 @@ export function AddSubjectTestModal(props: IAddSubjectModalProps) {
       subjectId: examState.subjectId,
       userId: userState.userId,
     };
+    appState.setIsLoading(true);
     await fetchData("test/edit", "put", fetchBody);
+    appState.setIsLoading(false);
     props.onCancel();
     props.loadTest();
     ClearForm();
@@ -82,12 +87,14 @@ export function AddSubjectTestModal(props: IAddSubjectModalProps) {
   const getMock = async () => {
     // const tempTargetKeys = [];
     const tempMockData = [];
+    appState.setIsLoading(true);
     const fetchQuestions = await fetchData(
       `question/get?subjectId=${examState.subjectId}&userId=${
         userState.userId || null
       }`,
       "get"
     );
+    appState.setIsLoading(false);
     const data = fetchQuestions.data;
     for (let i = 0; i < data.length; i++) {
       data[i].key = data[i].id;

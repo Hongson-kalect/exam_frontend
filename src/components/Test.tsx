@@ -7,6 +7,7 @@ import {
 import { Button } from "antd";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppState } from "../stores/appState";
 import useUserState from "../stores/userState";
 import { setCookie } from "../utils/cookie";
 import { fetchData } from "../utils/fetchFunction";
@@ -16,6 +17,7 @@ export interface ILoginProps {}
 export function Login(props: ILoginProps) {
   const params = useParams();
   const navigate = useNavigate();
+  const appState = useAppState();
   const userState = useUserState();
   const [isShowPassword, setIsShowPassword] = React.useState(false);
   const emailRef = React.useRef<HTMLInputElement | null>(null);
@@ -27,7 +29,9 @@ export function Login(props: ILoginProps) {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       };
+      appState.setIsLoading(true);
       const response = await fetchData("login", "POST", fetchBody);
+      appState.setIsLoading(false);
       if (response.status === 1) {
         userState.setUserId(response.data.token);
         navigate("/");

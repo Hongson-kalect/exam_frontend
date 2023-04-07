@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { fetchData } from "../utils/fetchFunction";
 import { Button } from "antd";
 import { toast } from "react-toastify";
+import { useAppState } from "../stores/appState";
 
 export interface ISignUpProps {}
 
 export default function SignUp(props: ISignUpProps) {
   const navigate = useNavigate();
+  const appState = useAppState();
   const emailRef = React.useRef<HTMLInputElement | null>(null);
   const phoneRef = React.useRef<HTMLInputElement | null>(null);
   const firstNameRef = React.useRef<HTMLInputElement | null>(null);
@@ -45,7 +47,9 @@ export default function SignUp(props: ISignUpProps) {
           password: passwordRef.current?.value,
           token: v4(),
         };
+        appState.setIsLoading(true);
         const data = await fetchData("signup", "POST", reqData);
+        appState.setIsLoading(false);
         if (data.status === 1) {
           toast.success("Sign up successfully");
           navigate("/login");

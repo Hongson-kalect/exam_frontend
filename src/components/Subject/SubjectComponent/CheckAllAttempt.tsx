@@ -1,6 +1,7 @@
 import { Input } from "@mui/material";
 import { Modal } from "antd";
 import { useState, useEffect } from "react";
+import { useAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
 import useUserState from "../../../stores/userState";
 import { getCookie } from "../../../utils/cookie";
@@ -12,6 +13,7 @@ import { SeeHistory } from "./SeeHistory";
 export interface ICheckAllAttemptProps {}
 
 export function CheckAllAttempt(props: ICheckAllAttemptProps) {
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
 
@@ -21,6 +23,7 @@ export function CheckAllAttempt(props: ICheckAllAttemptProps) {
   const [search, setSearch] = useState("");
   const [attempts, setAttempts] = useState([]);
   const getAllAttempt = async () => {
+    appState.setIsLoading(true);
     const fetchAllAttenmpt: any = await fetchData(
       "history/get?roomId=" +
         examState.roomId +
@@ -35,11 +38,13 @@ export function CheckAllAttempt(props: ICheckAllAttemptProps) {
         "&getAll=1",
       "get"
     );
+    appState.setIsLoading(false);
     console.log(fetchAllAttenmpt);
     if (fetchAllAttenmpt.status === 1) setAttempts(fetchAllAttenmpt.data);
   };
   const getHistoryDetail = async (e: any) => {
     const data = JSON.parse(e.target.closest(".history-item").dataset.id);
+    appState.setIsLoading(true);
     const getData = await fetchData(
       "history/get?id=" +
         data.id +
@@ -55,6 +60,7 @@ export function CheckAllAttempt(props: ICheckAllAttemptProps) {
         data.userAnser,
       "get"
     );
+    appState.setIsLoading(false);
     setHistoryDetail(getData.data);
     setIsSeeHistory(true);
   };

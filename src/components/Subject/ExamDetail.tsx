@@ -18,6 +18,7 @@ import { TransferDirection } from "antd/es/transfer";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppState } from "../../stores/appState";
 import useExamState from "../../stores/examStates";
 import useTestingState from "../../stores/testingState";
 import useUserState from "../../stores/userState";
@@ -49,7 +50,7 @@ interface testRoomDetail {
 
 export default function TestRoomDetail(props: ICreateNewTestProps) {
   const navigate = useNavigate();
-
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
   const testingState = useTestingState();
@@ -70,6 +71,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
     time: "",
   });
   const getDetail = async () => {
+    appState.setIsLoading(true);
     const fetchRes = await fetchData(
       "test-room/get?subjectId=" +
         examState.subjectId +
@@ -79,10 +81,12 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
         userState.userId,
       "get"
     );
+    appState.setIsLoading(false);
     setTestRoomDetail(fetchRes.data);
     console.log(fetchRes.data);
   };
   const getHistory = async () => {
+    appState.setIsLoading(true);
     const fetchRes = await fetchData(
       "history/get?subjectId=" +
         examState.subjectId +
@@ -94,9 +98,11 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
         (showFreeHistoty ? "1" : "0"),
       "get"
     );
+    appState.setIsLoading(false);
     setHistory(fetchRes.data);
   };
   const startExam = async () => {
+    appState.setIsLoading(true);
     const timeAttempt = await fetchData(
       "get-attempt?userId=" +
         userState.userId +
@@ -105,6 +111,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
         "&roomId=" +
         examState.roomId
     );
+    appState.setIsLoading(false);
     if (timeAttempt.status === 1) {
       if (timeAttempt.freeTest) {
         if (window.confirm("Are you wanna do free test?")) {
@@ -137,6 +144,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
   const deleteRoom = async () => {
     const yes = window.confirm("Are you wanna delete this room?");
     if (yes) {
+      appState.setIsLoading(true);
       const deleteRes = await fetchData(
         "test-room/del?id=" +
           examState.roomId +
@@ -146,6 +154,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
           userState.userId,
         "delete"
       );
+      appState.setIsLoading(false);
       if (deleteRes.status === 1) {
         toast.success("Delete completed");
         navigate(`/${examState.subjectId}`);
@@ -153,6 +162,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
     }
   };
   const checkUnSubmit = async () => {
+    appState.setIsLoading(true);
     const getUnsubmit = await fetchData(
       "history/unsubmit?roomId=" +
         examState.roomId +
@@ -162,6 +172,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
         userState.userId,
       "get"
     );
+    appState.setIsLoading(false);
     if (getUnsubmit.status === 1) {
       if (getUnsubmit.data) {
         if (window.confirm("You still have test not submit, wanna continue?")) {
@@ -174,18 +185,20 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
             testId: getUnsubmit.data.testId,
             timeAttemp: getUnsubmit.data.timeAttemp,
           };
+          appState.setIsLoading(true);
           const getSubmitTheForget = await fetchData(
             "exam/submit-current",
             "post",
             fetchBody
           );
-          console.log(getSubmitTheForget);
+          appState.setIsLoading(false);
         }
       }
     } else toast.error(getUnsubmit.message);
   };
   const getHistoryDetail = async (e: any) => {
     const data = JSON.parse(e.target.closest(".history-item").dataset.id);
+    appState.setIsLoading(true);
     const getData = await fetchData(
       "history/get?id=" +
         data.id +
@@ -201,6 +214,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
         data.userAnser,
       "get"
     );
+    appState.setIsLoading(false);
     setHistoryDetail(getData.data);
     setIsSeeHistory(true);
   };

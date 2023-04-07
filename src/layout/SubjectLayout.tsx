@@ -53,6 +53,7 @@ export function Subject(props: ISubjectProps) {
       subjectId: examState.subjectId,
       id: userState.userId,
     };
+
     const permission = await fetchData("subject/permission", "post", fetchBody);
     setSession("permission", permission);
     setPermission(permission);

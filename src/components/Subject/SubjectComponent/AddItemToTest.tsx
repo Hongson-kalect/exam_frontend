@@ -1,5 +1,6 @@
 import { Button, Tooltip } from "antd";
 import * as React from "react";
+import { useAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
 import useUserState from "../../../stores/userState";
 import { getCookie } from "../../../utils/cookie";
@@ -16,6 +17,7 @@ export function AddItemToTestModal({
   questions,
   setQuestions,
 }: IAddItemToTestModalProps) {
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
   const [searchVal, setSearchVal] = React.useState("");
@@ -27,8 +29,8 @@ export function AddItemToTestModal({
 
   const formRef = React.useRef<HTMLFormElement | null>(null);
 
-  console.log(questions);
   const loadQuestion = async () => {
+    appState.setIsLoading(true);
     let fetchRes = await fetchData("question/get-type", "get");
     setTypes(fetchRes.data);
     fetchRes = await fetchData(
@@ -37,9 +39,9 @@ export function AddItemToTestModal({
       }&userId=${userState.userId || null}`,
       "get"
     );
+    appState.setIsLoading(false);
 
     const data = fetchRes.data.filter((item: any) => {
-      console.log(questions);
       return !questions.includes(JSON.stringify(item));
     });
     if (fetchRes.status === 1) setAddQuestions(data);

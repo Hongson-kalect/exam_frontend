@@ -14,6 +14,7 @@ import { TransferDirection } from "antd/es/transfer";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
 import useUserState from "../../../stores/userState";
 import { getCookie } from "../../../utils/cookie";
@@ -51,7 +52,7 @@ export default function EditTestRoom({
   getDetail,
 }: IEditTestRoomProps) {
   const navigate = useNavigate();
-
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
 
@@ -74,6 +75,7 @@ export default function EditTestRoom({
   const [allowSeeScore, setAllowSeeScore] = React.useState<boolean>(false);
 
   const getData = async () => {
+    appState.setIsLoading(true);
     const fetchRes = await fetchData(
       "test-room/get?roomId=" +
         editId +
@@ -83,6 +85,7 @@ export default function EditTestRoom({
         examState.subjectId,
       "get"
     );
+    appState.setIsLoading(false);
     if (fetchRes.status === 1) {
       console.log(fetchRes);
       setName(fetchRes.data.name);
@@ -118,7 +121,9 @@ export default function EditTestRoom({
       subjectId: examState.subjectId,
       testRoomId: examState.roomId,
     };
+    appState.setIsLoading(true);
     const fetchRes = await fetchData("test-room/edit", "put", fetchBody);
+    appState.setIsLoading(false);
     console.log(fetchRes);
     if (fetchRes.status === 1) {
       toast.success("Edit completed");
@@ -129,11 +134,12 @@ export default function EditTestRoom({
   const getMock = async () => {
     // const tempTargetKeys = [];
     const tempMockData = [];
+    appState.setIsLoading(true);
     const fetchQuestions = await fetchData(
       `test/get/${examState.subjectId || "null"}`,
       "get"
     );
-    console.log(fetchQuestions);
+    appState.setIsLoading(false);
     const data = fetchQuestions.data;
     for (let i = 0; i < data.length; i++) {
       data[i].key = data[i].id;
@@ -162,7 +168,9 @@ export default function EditTestRoom({
       date: date,
       subjectId: examState.subjectId,
     };
+    appState.setIsLoading(true);
     const fetchRes = await fetchData("/test-room", "POST", fetchBody);
+    appState.setIsLoading(false);
     if (fetchRes.status === 0) {
       alert(fetchRes.message);
     }

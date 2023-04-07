@@ -108,8 +108,10 @@ export default function Exam({ appState }: IExamProps) {
       timeAttemp: testingState.timeAttempt,
       submited: false,
     };
+    appState.setIsLoading(true);
     const data = await fetchData("start-exam", "post", fetchBody);
     setHistoryId(data?.data?.id || "");
+    appState.setIsLoading(false);
   };
 
   const handleSumbit = async () => {

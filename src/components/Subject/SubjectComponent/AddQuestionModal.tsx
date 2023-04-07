@@ -3,6 +3,7 @@ import { Button, Modal, Form, AutoComplete, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 import * as React from "react";
 import ReactQuill from "react-quill";
+import { useAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
 
 import { fetchData } from "../../../utils/fetchFunction";
@@ -18,6 +19,7 @@ export interface IAddQuestionModalProps {
 }
 
 export function AddQuestionModal(props: IAddQuestionModalProps) {
+  const appState = useAppState();
   const examState = useExamState();
 
   const [anserInputNumber, setAnserInputNumber] = React.useState<number[]>([]);
@@ -40,8 +42,9 @@ export function AddQuestionModal(props: IAddQuestionModalProps) {
         explain: explain,
         subjectId: examState.subjectId,
       };
-      console.log(fetchBody);
+      appState.setIsLoading(true);
       await fetchData("question", "post", fetchBody);
+      appState.setIsLoading(false);
       props.loadQuestion();
       alert("Add question success");
       props.onCancel();
@@ -61,7 +64,9 @@ export function AddQuestionModal(props: IAddQuestionModalProps) {
         anser: formData.getAll("anser"),
         explain: explain,
       };
+      appState.setIsLoading(true);
       await fetchData("question/edit", "put", fetchBody);
+      appState.setIsLoading(false);
       props.loadQuestion();
       alert("Edit question success");
       props.onCancel();

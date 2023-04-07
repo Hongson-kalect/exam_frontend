@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { MemberItem } from "./MemberItem";
 import useExamState from "../../../stores/examStates";
 import useUserState from "../../../stores/userState";
+import { useAppState } from "../../../stores/appState";
 
 const { Option } = Select;
 
@@ -23,6 +24,7 @@ export interface IMemberManage {
 }
 
 export function MemberManage({}: IMemberManage) {
+  const appState = useAppState();
   const examState = useExamState();
   const userState = useUserState();
 
@@ -44,7 +46,9 @@ export function MemberManage({}: IMemberManage) {
       userId: userState.userId,
       search: searchVal,
     };
+    appState.setIsLoading(true);
     const memberRes = await fetchData("subject/member", "post", fetchBody);
+    appState.setIsLoading(false);
     if (memberRes.status === 1) {
       memberRes.data.member = memberRes.data.member.filter((item: any) => {
         return (
@@ -62,11 +66,13 @@ export function MemberManage({}: IMemberManage) {
       userId: userState.userId,
       search: addSearch,
     };
+    appState.setIsLoading(true);
     const optionsRes = await fetchData(
       "subject/member/search",
       "post",
       fetchBody
     );
+    appState.setIsLoading(false);
     if (optionsRes.status === 1) {
       setSelectOptions(optionsRes.data);
     } else {
@@ -79,7 +85,9 @@ export function MemberManage({}: IMemberManage) {
       userId: userState.userId,
       member: addVal,
     };
+    appState.setIsLoading(true);
     const optionsRes = await fetchData("subject/member/add", "post", fetchBody);
+    appState.setIsLoading(false);
     if (optionsRes.status === 1) {
       toast.success("Add member completed");
       getMember();
