@@ -1,5 +1,5 @@
 import { Input } from "@mui/material";
-import { Modal } from "antd";
+import { Empty, Modal } from "antd";
 import { useState, useEffect } from "react";
 import { useAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
@@ -95,7 +95,7 @@ export function CheckAllAttempt(props: ICheckAllAttemptProps) {
           Show Free test
         </div>
       </div>
-      {attempts &&
+      {attempts ? (
         attempts.map((item: any, index) => {
           return (
             <div
@@ -124,7 +124,10 @@ export function CheckAllAttempt(props: ICheckAllAttemptProps) {
               </div>
             </div>
           );
-        })}
+        })
+      ) : (
+        <Empty />
+      )}
       <Modal
         open={isSeeHistory}
         onCancel={() => {

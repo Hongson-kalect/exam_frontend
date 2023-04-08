@@ -4,10 +4,14 @@ import { useForm } from "antd/es/form/Form";
 import * as React from "react";
 import axios from "axios";
 import { Tooltip } from "@mui/material";
+import { useAppState } from "../../../stores/appState";
+import useExamState from "../../../stores/examStates";
 
 export interface IAddQuestionExcelProps {}
 
 export function AddQuestionExcel(props: IAddQuestionExcelProps) {
+  const appState = useAppState();
+  const examState = useExamState();
   const [fileVal, setFileVal] = React.useState<any>("");
   const fileRef = React.useRef<HTMLInputElement | null>(null);
   const uploadFile = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,11 +25,13 @@ export function AddQuestionExcel(props: IAddQuestionExcelProps) {
     // e.preventDefault();
     const data = new FormData();
     if (file) data.append("upload_file", fileRef?.current?.files?.[0] || "qq");
-    // console.log(fetchTest);
+    data.append("subjectId", examState.subjectId.toString());
+    appState.setIsLoading(true);
     axios.post(
       "https://exam-backend-6rnv.onrender.com/api/question/add-excel",
       data
     );
+    appState.setIsLoading(false);
     // const fetchTest = await fetchData("testlink", "post", data);
   };
   return (
@@ -38,7 +44,7 @@ export function AddQuestionExcel(props: IAddQuestionExcelProps) {
         encType="multipart/form-data"
       >
         <div className="absolute top-4 right-4 text-red-300 cursor-pointer">
-          <Tooltip title="Excel file have to start by A column, and with column is subjectId, question, type, level, anser(correct|wrong|worng|....), explain, anserTimes, correctTimes, createdAt(options), updatedAt(options) some column is nullable, record will be save start from line 2">
+          <Tooltip title="Excel file have to start by A column, and with column is question, type, level, anser(correct|wrong|worng|....), explain, anserTimes, correctTimes, createdAt(options), updatedAt(options) some column is nullable, record will be save start from line 2">
             <Warning />
           </Tooltip>
         </div>

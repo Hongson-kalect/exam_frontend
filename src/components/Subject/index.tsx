@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Add, Login, UploadOutlined } from "@mui/icons-material";
-import { Modal, Button, Form, Input, Upload, Image, Spin } from "antd";
+import { Modal, Button, Form, Input, Upload, Image, Spin, Empty } from "antd";
 import { getCookie, setCookie } from "../../utils/cookie";
 import { fetchData } from "../../utils/fetchFunction";
 import { SubjectCard } from "./SubjectComponent/SubjectCard";
@@ -117,20 +117,24 @@ export function Subject(props: ISubjectProps) {
             </div>
           </div>
           <div className="flex flex-wrap items-start px-8 py-2 justify-start w-full">
-            {subjects?.map((subject: any) => {
-              return (
-                <div
-                  key={subject.id}
-                  className="w-1/6 p-4"
-                  onClick={() => {
-                    examState.setSubjectId(subject.id);
-                    navigate(`/${subject.id}`);
-                  }}
-                >
-                  <SubjectCard name={subject.name} image={subject.avatar} />
-                </div>
-              );
-            })}
+            {subjects.length > 0 ? (
+              subjects?.map((subject: any) => {
+                return (
+                  <div
+                    key={subject.id}
+                    className="w-1/6 p-4"
+                    onClick={() => {
+                      examState.setSubjectId(subject.id);
+                      navigate(`/${subject.id}`);
+                    }}
+                  >
+                    <SubjectCard name={subject.name} image={subject.avatar} />
+                  </div>
+                );
+              })
+            ) : (
+              <Empty />
+            )}
           </div>
         </div>
       </main>

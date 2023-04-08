@@ -2,7 +2,7 @@ import { AddQuestionModal } from "./SubjectComponent/AddQuestionModal";
 import { TableQuestionItem } from "./SubjectComponent/TableQuestionItem";
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { AutoComplete, Modal } from "antd";
+import { AutoComplete, Empty, Modal } from "antd";
 import * as React from "react";
 import { fetchData } from "../../utils/fetchFunction";
 import { getLocalStorage } from "../../utils/localStorage";
@@ -138,42 +138,47 @@ export default function Question({ appState }: IQuestionProps) {
                   </div>
                 </th>
               </tr>
-              <tr>
-                {(getSession("permission") === "host" ||
-                  getSession("permission") === "deputy") && (
-                  <>
-                    <th>Index</th>
-                    <th>Options</th>
-                  </>
-                )}
+              {questions.length > 0 && (
+                <tr>
+                  {(getSession("permission") === "host" ||
+                    getSession("permission") === "deputy") && (
+                    <>
+                      <th>Index</th>
+                      <th>Options</th>
+                    </>
+                  )}
 
-                <th>Type</th>
-                <th>Level</th>
-                <th>Question</th>
-                {(getSession("permission") === "host" ||
-                  getSession("permission") === "deputy") && (
-                  <>
-                    <th>Anser</th>
-                    <th>Explain</th>
-                  </>
-                )}
-
-                <th>Updated at</th>
-              </tr>
+                  <th>Type</th>
+                  <th>Level</th>
+                  <th>Question</th>
+                  {(getSession("permission") === "host" ||
+                    getSession("permission") === "deputy") && (
+                    <>
+                      <th>Anser</th>
+                      <th>Explain</th>
+                    </>
+                  )}
+                  <th>Updated at</th>
+                </tr>
+              )}
             </thead>
-            <tbody ref={tbodyRef} className="text-xs">
-              {questions.map((question: IQuestion) => {
-                return (
-                  <TableQuestionItem
-                    loadQuestion={loadQuestion}
-                    setIsEdit={setIsEdit}
-                    setEditItem={setEditItem}
-                    key={question.id}
-                    question={question}
-                  />
-                );
-              })}
-            </tbody>
+            {questions.length > 0 ? (
+              <tbody ref={tbodyRef} className="text-xs">
+                {questions.map((question: IQuestion) => {
+                  return (
+                    <TableQuestionItem
+                      loadQuestion={loadQuestion}
+                      setIsEdit={setIsEdit}
+                      setEditItem={setEditItem}
+                      key={question.id}
+                      question={question}
+                    />
+                  );
+                })}
+              </tbody>
+            ) : (
+              <Empty />
+            )}
           </table>
         </div>
 

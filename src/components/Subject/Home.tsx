@@ -8,6 +8,7 @@ import { getCookie } from "../../utils/cookie";
 import useExamState from "../../stores/examStates";
 import useUserState from "../../stores/userState";
 import { IAppState } from "../../stores/appState";
+import { Empty } from "antd";
 
 export interface IExamRoomListProps {
   appState: IAppState;
@@ -36,19 +37,23 @@ export default function ExamRoomList({ appState }: IExamRoomListProps) {
   }, []);
   return (
     <div className="w-full">
-      {testRooms.map((room) => {
-        return (
-          <ExamRoom
-            onClick={() => examState.setroomId(room.id)}
-            key={room.id}
-            id={room.id}
-            name={room.name}
-            time={room.time}
-            date={room.day}
-            description={room.description}
-          />
-        );
-      })}
+      {testRooms.length > 0 ? (
+        testRooms.map((room) => {
+          return (
+            <ExamRoom
+              onClick={() => examState.setroomId(room.id)}
+              key={room.id}
+              id={room.id}
+              name={room.name}
+              time={room.time}
+              date={room.day}
+              description={room.description}
+            />
+          );
+        })
+      ) : (
+        <Empty />
+      )}
     </div>
   );
 }
