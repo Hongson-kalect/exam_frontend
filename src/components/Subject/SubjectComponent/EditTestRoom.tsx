@@ -316,7 +316,7 @@ export default function EditTestRoom({
             />
           </Form.Item>
         </Form.Item>
-        <Form.Item label="Free Test" className="w-1/3 inline-block">
+        <Form.Item label="Free Test">
           <Checkbox
             checked={isFreeTest}
             onChange={() => setIsFreeTest(!isFreeTest)}
