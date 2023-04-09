@@ -7,7 +7,9 @@ import { Tooltip } from "@mui/material";
 import { useAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
 
-export interface IAddQuestionExcelProps {}
+export interface IAddQuestionExcelProps {
+  setIsExcelAdd: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export function AddQuestionExcel(props: IAddQuestionExcelProps) {
   const appState = useAppState();
@@ -32,6 +34,7 @@ export function AddQuestionExcel(props: IAddQuestionExcelProps) {
       data
     );
     appState.setIsLoading(false);
+    props.setIsExcelAdd(false);
     // const fetchTest = await fetchData("testlink", "post", data);
   };
   return (

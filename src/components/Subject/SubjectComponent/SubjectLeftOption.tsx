@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useAppState } from "../../../stores/appState";
 import useUserState from "../../../stores/userState";
 import { getCookie } from "../../../utils/cookie";
 import { fetchData } from "../../../utils/fetchFunction";
@@ -11,7 +10,6 @@ export interface ISubjectLeftOptionProps {
 }
 
 export function SubjectLeftOption(props: ISubjectLeftOptionProps) {
-  const appState = useAppState();
   const userState = useUserState();
   const [name, setName] = React.useState("");
   const [decribe, setDecribe] = React.useState("");
@@ -36,18 +34,14 @@ export function SubjectLeftOption(props: ISubjectLeftOptionProps) {
       upload: image,
       host: userState.userId,
     };
-    appState.setIsLoading(true);
     const fetchDate = await fetchData("subject", "POST", fetchBody);
-    appState.setIsLoading(false);
+    console.log(fetchDate);
   };
   const handleFormClose = () => {
     setAddModalOpen(false);
   };
   return (
-    <div
-      onClick={props.onClick}
-      className="duration-200 flex items-center gap-2 px-1 my-2 py-2 hover:bg-blue-400 hover:text-white cursor-pointer rounded-md"
-    >
+    <div onClick={props.onClick} className="left-content-item">
       {props.icon}
       <p>{props.title}</p>
     </div>

@@ -183,11 +183,8 @@ export function Subject(props: ISubjectProps) {
             </Tooltip>
           </div>
         </div>
-        <div
-          className="content flex pt-1 gap-2 bg-white"
-          style={{ height: "calc( 100% - 48px )" }}
-        >
-          <div className="flex flex-col justify-between h-full w-1/6 mx-2  px-1 rounded-md border-2 shadow-black shadow-lg text-gray-900 bg-white overflow-auto hide-scroll ">
+        <div className="content flex" style={{ height: "calc( 100% - 40px )" }}>
+          <div className="left-content">
             <div>
               <SubjectLeftOption
                 icon={<Home />}
@@ -212,31 +209,44 @@ export function Subject(props: ISubjectProps) {
                 />
               )}
             </div>
-            <div className="justify-items-end mb-2 px-2 gap-y-2 flex flex-col">
-              <Button
-                background="bg-green-500"
-                color="text-white"
-                title="Room Info"
-                onClick={() => to("info")}
-              />
-              <Button
-                background="bg-red-400"
-                color="text-white"
-                title="Leave Room"
-                onClick={handleLeaveRoom}
-              />
-              {permission === "host" && (
+            <div className="bottom">
+              <div className="bottom-button">
                 <Button
-                  background="bg-red-500"
+                  size="small"
+                  background="bg-green-500"
                   color="text-white"
-                  title="Disband Room"
-                  onClick={handleDisbandRoom}
+                  title="Room Info"
+                  onClick={() => to("info")}
                 />
+              </div>
+              <div className="bottom-button">
+                <Button
+                  size="small"
+                  background="bg-red-400"
+                  color="text-white"
+                  title="Leave Room"
+                  onClick={handleLeaveRoom}
+                />
+              </div>
+              {permission === "host" && (
+                <div className="bottom-button">
+                  <Button
+                    size="small"
+                    background="bg-red-500"
+                    color="text-white"
+                    title="Disband Room"
+                    onClick={handleDisbandRoom}
+                  />
+                </div>
               )}
             </div>
           </div>
-          <div className="right-content flex flex-1 h-full w-full overflow-auto hide-scroll px-4 rounded-md border-2 shadow-black shadow-lg">
-            <Outlet />
+          <div className="right-content">
+            <div className="mg5">
+              <div className="subject-layout-child hide-scroll">
+                <Outlet />
+              </div>
+            </div>
           </div>
         </div>
       </div>

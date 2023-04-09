@@ -1,0 +1,79 @@
+.exam-detail-comp {
+    display       : flex;
+    flex-direction: column;
+    height        : 100%;
+
+    .header {
+        display        : flex;
+        justify-content: center;
+        margin         : 10px 0;
+        font-size      : 20px;
+        font-weight    : bold;
+        color          : rgb(59, 62, 219);
+        text-transform : uppercase;
+    }
+
+    .info {
+        .time {
+            display        : flex;
+            justify-content: space-evenly;
+            align-items    : center;
+
+            p {
+                font-size: 13px;
+            }
+        }
+
+        .desc {
+            display  : flex;
+            padding  : 4px 8px;
+            font-size: 14px;
+        }
+    }
+
+    .history-title {
+        display    : flex;
+        align-items: center;
+        margin     : 10px 8px;
+
+        .title {
+            font-size      : 20px;
+            text-decoration: underline;
+        }
+
+        input {
+            font-size   : 16px;
+            margin-right: 4px;
+        }
+
+        label {
+            font-size: 14px;
+        }
+    }
+
+    .history-wrap {
+        padding    : 8px 20px;
+        display    : flex;
+        flex-wrap  : wrap;
+        gap        : 10px 20px;
+        align-items: start;
+
+        .history-item {
+            width        : 120px;
+            background   : #5c1ef9;
+            padding      : 4px 8px;
+            cursor       : pointer;
+            text-align   : center;
+            color        : white;
+            font-weight  : bold;
+            border-radius: 4px;
+
+
+            p {
+                font-size: 14px;
+            }
+        }
+    }
+
+
+}

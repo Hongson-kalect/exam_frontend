@@ -4,10 +4,10 @@ import { Outlet } from "react-router-dom";
 export function DefaultLayout({ children }: any) {
   return (
     <div className="h-screen flex flex-col">
-      <div className="h-8">
+      <div className="flex">
         <Header />
       </div>
-      <div className="bg-white" style={{ height: "calc(100% - 32px)" }}>
+      <div className="bg-white w-full" style={{ height: "calc(100% - 42px)" }}>
         {children}
       </div>
       {/* <Footer /> */}

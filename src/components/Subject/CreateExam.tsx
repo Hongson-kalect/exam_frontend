@@ -19,6 +19,7 @@ import useExamState from "../../stores/examStates";
 import useTestingState from "../../stores/testingState";
 import useUserState from "../../stores/userState";
 import { fetchData } from "../../utils/fetchFunction";
+import "../../scss/CreateExam.scss";
 
 const { Option } = Select;
 const options = [
@@ -111,17 +112,15 @@ export default function CreateExam(props: ICreateNewTestProps) {
     getMock();
   }, []);
   return (
-    <div className="flex flex-col w-full">
-      <p className="text-3xl uppercase text-primary text-center">
-        Create a new Exam Room
-      </p>
+    <div className="create-exam hide-scroll">
+      <p className="title">Create a new Exam Room</p>
       <Form
         form={form}
         name="create-info"
         onFinish={handleFormSubmit}
         onFinishFailed={() => alert("Submit fail")}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 14 }}
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 18 }}
         className="flex flex-col py-10 overflow-auto w-full hide-scroll"
         autoComplete="off"
         initialValues={{ attempLimit: 1 }}
@@ -150,9 +149,12 @@ export default function CreateExam(props: ICreateNewTestProps) {
             onChange={handleChange}
             render={(item) => {
               return (
-                <div className="flex flex-col">
-                  <span>{`${item.id || ""}-${item.code || ""}: `}</span>
-                  {item.name}
+                <div className="test-item">
+                  <div className="title">
+                    <p className="id">id: {item.id}</p>
+                    <p className="code">code: {item.code}</p>
+                  </div>
+                  <p className="name">{item.name}</p>
                 </div>
               );
               // return `${item.type || ""} - ${item.level || ""} : ${

@@ -59,7 +59,7 @@ export function Login({ appState }: ILoginProps) {
           <div className="form-input ">
             <input
               ref={emailRef}
-              className="border border-gray-800 w-full mt-12 h-10 rounded-md px-3 py-2 text-lg"
+              className="border border-gray-800 w-full mt-12 rounded-md px-3 py-2"
               type="text"
               name="email"
               placeholder="enter email..."
@@ -68,7 +68,7 @@ export function Login({ appState }: ILoginProps) {
           <div className="form-input relative ">
             <input
               ref={passwordRef}
-              className="border border-gray-800 w-full mt-8 h-10 rounded-md px-3 py-2 text-lg"
+              className="border border-gray-800 w-full mt-8 rounded-md px-3 py-2"
               type={isShowPassword ? "text" : "password"}
               name="password"
               placeholder="enter password..."

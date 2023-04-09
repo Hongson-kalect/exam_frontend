@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { IAppState } from "../../../stores/appState";
 import useExamState from "../../../stores/examStates";
 import { checkValidTime } from "../../../utils/functions";
 import { getLocalStorage, setLocalStorage } from "../../../utils/localStorage";
@@ -46,30 +45,16 @@ export function ExamRoom(props: IExamRoomProps) {
     >
       <div
         onClick={() => examState.setroomId(props.id)}
-        className={`bg-gradient-to-r ${
-          examable ? "from-blue-500" : "from-slate-300"
-        } w-3/4 cursor-pointer my-1 rounded-md opacity-80 hover:opacity-100`}
+        className={`room-list-item ${examable ? "active" : ""}`}
       >
-        <div className="flex items-center justify-between pt-0.5 gap-2">
-          <p
-            className={`text-lg ml-2 font-semibold ${
-              examable ? "text-gray-100 text-xl" : "text-gray-800"
-            }`}
-          >
-            {props.name}
-          </p>
-          <p className="text-xs text-slate-600 mr-1 font-bold">
+        <div className="room-list-item-box">
+          <p className="room-list-item-h">{props.name}</p>
+          <p className="room-list-item-time">
             Time start: {`${props.time}${props.date ? " " + props.date : ""}`}
           </p>
         </div>
         {props.description && (
-          <div
-            className={`whitespace-nowrap text-ellipsis text-sm ${
-              examable ? "text-slate-200" : "text-gray-700"
-            } pl-4 pr-1 py-1`}
-          >
-            {props.description}
-          </div>
+          <div className="room-list-item-desc">{props.description}</div>
         )}
       </div>
     </Link>

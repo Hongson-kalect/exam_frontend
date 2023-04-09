@@ -31,6 +31,8 @@ import { CheckAllAttempt } from "./SubjectComponent/CheckAllAttempt";
 import EditTestRoom from "./SubjectComponent/EditTestRoom";
 import { SeeHistory } from "./SubjectComponent/SeeHistory";
 
+import "../../scss/ExamDetail.scss";
+
 const { Option } = Select;
 const options = [
   { value: "Easy", label: "Easy" },
@@ -242,59 +244,59 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
   }, [testRoomDetail]);
   console.log(isValidTime, isExamStarted);
   return (
-    <div className="flex flex-col w-full pb-4">
-      <p className="text-3xl uppercase text-primary text-center mb-4">
-        {testRoomDetail.name}
-      </p>
-      <div className="flex flex-col gap-y-4 ">
-        <div className="flex items-center justify-evenly">
+    <div className="exam-detail-comp">
+      <p className="header">{testRoomDetail.name}</p>
+      <div className="info">
+        <div className="time">
           {/* <div> */}
           <p>Day: {testRoomDetail.day}</p>
           <p>Shift: {testRoomDetail.time}</p>
           <p>Limit Time: {testRoomDetail.limitTime}</p>
           {/* </div> */}
         </div>
-        <div className="px-1/12 flex gap-2">
+        <div className="desc">
           <p className="font-semibold">Description: </p>
-          {testRoomDetail.description}
+          {testRoomDetail.description}alsjd ajsd askdasd lkasjda alsjd ajsd
+          askdasd lkasjda alsjd ajsd askdasd lkasjda alsjd ajsd askdasd lkasjda
+          alsjd ajsd askdasd lkasjda alsjd ajsd askdasd lkasjda alsjd ajsd
+          askdasd lkasjda alsjd ajsd askdasd lkasjda alsjd ajsd askdasd lkasjda
+          alsjd ajsd askdasd lkasjda
         </div>
       </div>
-      <div className="flex-1 flex flex-col overflow-auto px-10 mt-4">
-        <div className="flex gap-x-2 items-center">
-          <h2 className="underline italic mb-4">History:</h2>
-          <input
-            className="w-6 h-6 ml-4"
-            type="checkbox"
-            checked={showFreeHistoty}
-            onChange={() => setShowFreeHistory(!showFreeHistoty)}
-          />{" "}
-          Show Free test
-        </div>
 
-        {/* Render history here */}
-        <div className="flex-1 ">
-          {history.length === 0 ? (
-            <Empty />
-          ) : (
-            <div className="flex flex-wrap gap-x-8 gap-y-4 items-start">
-              {history.map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="history-item w-1/6 bg-blue-400 h-10 rounded-2xl cursor-pointer"
-                    data-id={JSON.stringify(item)}
-                    onClick={(e) => getHistoryDetail(e)}
-                  >
-                    <p className="flex justify-center items-center text-2xl font-blold text-white pt-1">
-                      Attempt {index + 1}
-                    </p>
-                  </div>
-                );
-              })}
-              <div className="grow shrink"></div>
-            </div>
-          )}
-        </div>
+      <div className="history-title">
+        <h2 className="title">History:</h2>
+        <input
+          className="w-6 h-6 ml-4"
+          id="freeTestCheck"
+          type="checkbox"
+          checked={showFreeHistoty}
+          onChange={() => setShowFreeHistory(!showFreeHistoty)}
+        />{" "}
+        <label htmlFor="freeTestCheck">Show Free test</label>
+      </div>
+
+      {/* Render history here */}
+      <div className="flex-1 ">
+        {history.length === 0 ? (
+          <Empty />
+        ) : (
+          <div className="history-wrap">
+            {history.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="history-item "
+                  data-id={JSON.stringify(item)}
+                  onClick={(e) => getHistoryDetail(e)}
+                >
+                  <p>Attempt {index + 1}</p>
+                </div>
+              );
+            })}
+            <div className="grow shrink"></div>
+          </div>
+        )}
       </div>
       <div className="text-lg px-2 py-1 flex justify-evenly items-end">
         {getSession("permission") !== "member" && (

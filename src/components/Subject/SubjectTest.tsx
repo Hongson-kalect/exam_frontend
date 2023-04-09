@@ -46,77 +46,70 @@ export default function SubjectTest(props: ISubjectTestProps) {
     return () => clearTimeout(times);
   }, [searchVal]);
   return (
-    <div>
-      <div className="flex flex-col h-full">
-        <div
-          className={`m-2 ${
-            getSession("permission") === "host" ||
-            getSession("permission") === "deputy"
-              ? "h-11/12"
-              : "h-full"
-          } w-full overflow-auto hide-scroll`}
-        >
-          <table border={1}>
-            <thead className="sticky top-0 w-full">
-              <tr>
-                <th colSpan={10}>
-                  <div
-                    className="flex items-center justify-between px-2 py-1 font-normal"
-                    style={{ width: "75vw" }}
-                  >
-                    <div className="flex items-center gap-1">
-                      <input
-                        id="check-box"
-                        type="checkbox"
-                        // onClick={handleCheckClick}
-                        name="check-shot"
-                        className="outline-none w-5 h-5"
-                        placeholder="search..."
-                      />
-                      {" One line table "}
-                    </div>
-                    <div className="flex items-center gap-2 justify-end">
-                      <input
-                        type="text"
-                        className="outline-none border-2 rounded-full px-3 py-1"
-                        value={searchVal}
-                        onChange={(e) => setSearchVal(e.target.value)}
-                        placeholder="Search..."
-                      />
-                    </div>
+    <div className="table-wrap">
+      <div className="table-content">
+        <table border={1}>
+          <thead className="sticky top-0 w-full">
+            <tr className="thead-row">
+              <th colSpan={10}>
+                <div
+                  className="flex items-center justify-between px-2 py-1 font-normal"
+                  style={{ width: "75vw" }}
+                >
+                  <div className="flex items-center gap-1">
+                    <input
+                      id="check-box"
+                      type="checkbox"
+                      // onClick={handleCheckClick}
+                      name="check-shot"
+                      className="outline-none w-5 h-5"
+                      placeholder="search..."
+                    />
+                    {" One line table "}
                   </div>
-                </th>
-              </tr>
-              <tr>
-                {(getSession("permission") === "host" ||
-                  getSession("permission") === "deputy") && (
-                  <>
-                    <th>ID</th>
-                    <th>Options</th>
-                  </>
-                )}
-                <th>Code</th>
-                <th>Name</th>
-                <th>Question Number</th>
-                <th>Description</th>
-                <th>Updated at</th>
-              </tr>
-            </thead>
-            <tbody ref={tableBodyRef} className="text-xs">
-              {tests?.map((test: any, index) => {
-                return (
-                  <SubjectTestItem
-                    loadTest={loadTest}
-                    setIsEdit={setIsEdit}
-                    setEditInfo={setEditInfo}
-                    key={test.id}
-                    question={test}
-                  />
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                  <div className="flex items-center gap-2 justify-end">
+                    <input
+                      type="text"
+                      className="outline-none border-2 rounded-full px-3 py-1"
+                      value={searchVal}
+                      onChange={(e) => setSearchVal(e.target.value)}
+                      placeholder="Search..."
+                    />
+                  </div>
+                </div>
+              </th>
+            </tr>
+            <tr className="thead-row">
+              {(getSession("permission") === "host" ||
+                getSession("permission") === "deputy") && (
+                <>
+                  <th>ID</th>
+                  <th>Options</th>
+                </>
+              )}
+              <th>Code</th>
+              <th>Name</th>
+              <th>Question Number</th>
+              <th>Description</th>
+              <th>Updated at</th>
+            </tr>
+          </thead>
+          <tbody ref={tableBodyRef} className="text-xs">
+            {tests?.map((test: any, index) => {
+              return (
+                <SubjectTestItem
+                  loadTest={loadTest}
+                  setIsEdit={setIsEdit}
+                  setEditInfo={setEditInfo}
+                  key={test.id}
+                  question={test}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="options-button">
         {(getSession("permission") === "host" ||
           getSession("permission") === "deputy") && (
           <div className="h-1/12 flex justify-center bottom-2 mb-1">

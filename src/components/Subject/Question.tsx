@@ -73,136 +73,123 @@ export default function Question({ appState }: IQuestionProps) {
     return () => clearTimeout(times);
   }, [searchVal, searchLevel, searchType]);
   return (
-    <div className="w-full h-full">
-      <div className="flex flex-col h-full">
-        <div className="m-2 h-11/12 w-full overflow-auto hide-scroll">
-          <table border={1}>
-            <thead className="sticky top-0 w-full">
-              <tr>
-                <th colSpan={10}>
-                  <div
-                    className="flex items-center justify-between px-2 py-1 font-normal"
-                    style={{ width: "75vw" }}
-                  >
-                    <div className="flex items-center gap-1">
-                      <input
-                        id="check-box"
-                        type="checkbox"
-                        onClick={handleCheckClick}
-                        name="check-shot"
-                        className="outline-none w-5 h-5"
-                      />
-                      {" One line table "}
-                    </div>
-                    <div className="flex items-center gap-2 justify-end">
-                      <input
-                        type="text"
-                        className="outline-none border-2 rounded-full px-3 py-1"
-                        value={searchVal}
-                        onChange={(e) => setSearchVal(e.target.value)}
-                        placeholder="Search..."
-                      />
-                      <select
-                        name="type"
-                        id=""
-                        className="outline-none py-1 rounded-lg"
-                        value={searchType}
-                        onChange={(e) => setSearchType(e.target.value)}
-                      >
-                        <option value="">--Type : All--</option>;
-                        {types.length > 0 &&
-                          types.map((item: any, index) => {
-                            return (
-                              <option key={index} value={item.type}>
-                                {item.type}
-                              </option>
-                            );
-                          })}
-                      </select>
-
-                      <select
-                        name="level"
-                        value={searchLevel}
-                        onChange={(e) => setSearchLevel(e.target.value)}
-                        id=""
-                        className="outline-none  py-1 rounded-lg"
-                      >
-                        <option value="">Level : All</option>
-                        <option value="Easy">Easy</option>
-                        <option value="Normal">Normal</option>
-                        <option value="Hard">Hard</option>
-                        <option value="Extreme">Extreme</option>
-                      </select>
-                      {/* <SearchOutlined /> */}
-                    </div>
-                  </div>
-                </th>
-              </tr>
-              {questions.length > 0 && (
-                <tr>
-                  {(getSession("permission") === "host" ||
-                    getSession("permission") === "deputy") && (
-                    <>
-                      <th>Index</th>
-                      <th>Options</th>
-                    </>
-                  )}
-
-                  <th>Type</th>
-                  <th>Level</th>
-                  <th>Question</th>
-                  {(getSession("permission") === "host" ||
-                    getSession("permission") === "deputy") && (
-                    <>
-                      <th>Anser</th>
-                      <th>Explain</th>
-                    </>
-                  )}
-                  <th>Updated at</th>
-                </tr>
-              )}
-            </thead>
-            {questions.length > 0 ? (
-              <tbody ref={tbodyRef} className="text-xs">
-                {questions.map((question: IQuestion) => {
-                  return (
-                    <TableQuestionItem
-                      loadQuestion={loadQuestion}
-                      setIsEdit={setIsEdit}
-                      setEditItem={setEditItem}
-                      key={question.id}
-                      question={question}
+    <div className="table-wrap">
+      <div className="table-content">
+        <table border={1}>
+          <thead className="sticky top-0 w-full">
+            <tr className="thead-row">
+              <th colSpan={10}>
+                <div className="">
+                  {/* <div className="flex items-center gap-1">
+                    <input
+                      id="check-box"
+                      type="checkbox"
+                      onClick={handleCheckClick}
+                      name="check-shot"
+                      className="outline-none w-5 h-5"
                     />
-                  );
-                })}
-              </tbody>
-            ) : (
-              <Empty />
+                    {" One line table "}
+                  </div> */}
+                  <div className="table head-option">
+                    <input
+                      type="text"
+                      value={searchVal}
+                      onChange={(e) => setSearchVal(e.target.value)}
+                      placeholder="Search..."
+                    />
+                    <select
+                      name="type"
+                      value={searchType}
+                      onChange={(e) => setSearchType(e.target.value)}
+                    >
+                      <option value="">--Type : All--</option>;
+                      {types.length > 0 &&
+                        types.map((item: any, index) => {
+                          return (
+                            <option key={index} value={item.type}>
+                              {item.type}
+                            </option>
+                          );
+                        })}
+                    </select>
+                    <select
+                      name="level"
+                      value={searchLevel}
+                      onChange={(e) => setSearchLevel(e.target.value)}
+                    >
+                      <option value="">Level : All</option>
+                      <option value="Easy">Easy</option>
+                      <option value="Normal">Normal</option>
+                      <option value="Hard">Hard</option>
+                      <option value="Extreme">Extreme</option>
+                    </select>
+                    {/* <SearchOutlined /> */}
+                  </div>
+                </div>
+              </th>
+            </tr>
+            {questions.length > 0 && (
+              <tr className="thead-row">
+                {(getSession("permission") === "host" ||
+                  getSession("permission") === "deputy") && (
+                  <>
+                    <th>Index</th>
+                    <th>Options</th>
+                  </>
+                )}
+                <th>Type</th>
+                <th>Level</th>
+                <th>Question</th>
+                {(getSession("permission") === "host" ||
+                  getSession("permission") === "deputy") && (
+                  <>
+                    <th>Anser</th>
+                    <th>Explain</th>
+                  </>
+                )}
+                <th>Updated at</th>
+              </tr>
             )}
-          </table>
-        </div>
-
-        <div className="h-1/12 flex justify-center bottom-2 mb-1 gap-x-2">
-          {(getSession("permission") === "host" ||
-            getSession("permission") === "deputy") && (
-            <>
-              <Button
-                variant="contained"
-                className="bg-blue-500"
-                onClick={() => setIsModalOpen(true)}
-              >
-                Add question
-              </Button>
-              <Button
-                variant="contained"
-                className="bg-green-500 hover:!bg-green-600"
-                onClick={() => setIsExcelAdd(true)}
-              >
-                Add question by Excel file
-              </Button>
-            </>
+          </thead>
+          {questions.length > 0 ? (
+            <tbody ref={tbodyRef} className="text-xs">
+              {questions.map((question: IQuestion) => {
+                return (
+                  <TableQuestionItem
+                    loadQuestion={loadQuestion}
+                    setIsEdit={setIsEdit}
+                    setEditItem={setEditItem}
+                    key={question.id}
+                    question={question}
+                  />
+                );
+              })}
+            </tbody>
+          ) : (
+            <Empty />
           )}
-        </div>
+        </table>
+      </div>
+      <div className="options-button">
+        {(getSession("permission") === "host" ||
+          getSession("permission") === "deputy") && (
+          <>
+            <Button
+              variant="contained"
+              className="bg-blue-500"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Add question
+            </Button>
+            <Button
+              variant="contained"
+              className="bg-green-500 hover:!bg-green-600"
+              onClick={() => setIsExcelAdd(true)}
+            >
+              Add question by Excel file
+            </Button>
+          </>
+        )}
       </div>
       <Modal
         open={isModalOpen || isEdit || isExcelAdd}
@@ -216,7 +203,7 @@ export default function Question({ appState }: IQuestionProps) {
         footer={false}
       >
         {isExcelAdd ? (
-          <AddQuestionExcel />
+          <AddQuestionExcel setIsExcelAdd={setIsExcelAdd} />
         ) : (
           <AddQuestionModal
             isEdit={isEdit}
