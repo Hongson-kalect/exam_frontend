@@ -130,8 +130,8 @@ th {
   top: -2px;
 }
 tr:hover td {
-  background: #a4a4a4;
-  color: #fdfdff;
+  background: #8b94fb;
+  color: #ffffff;
   border-top: 1px solid #22262e;
   transition: all ease 0.2s;
 }

@@ -1,5 +1,5 @@
 import { Add, PlusOneOutlined } from "@mui/icons-material";
-import { TextField } from "@mui/material";
+import { TextField, Tooltip } from "@mui/material";
 import { Modal, Button, Transfer } from "antd";
 import * as React from "react";
 import { AddItemToTestModal } from "./AddItemToTest";
@@ -12,6 +12,8 @@ import { getLocalStorage } from "../../../utils/localStorage";
 import useExamState from "../../../stores/examStates";
 import useUserState from "../../../stores/userState";
 import { useAppState } from "../../../stores/appState";
+
+import "../../../scss/AddSubjectModal.scss";
 
 export interface IAddSubjectModalProps {
   editInfo: string;
@@ -155,7 +157,7 @@ export function AddSubjectTestModal(props: IAddSubjectModalProps) {
   }, [props.isEdit, props.editInfo]);
 
   return (
-    <div>
+    <div className="add-subject-modal">
       <form
         onSubmit={props.isEdit ? handleEditTest : handleAddTest}
         className="flex flex-col add-question-form gap-y-4"
@@ -197,11 +199,27 @@ export function AddSubjectTestModal(props: IAddSubjectModalProps) {
             // onSearch={handleSearch}
             render={(item) => {
               return (
-                <div className="flex">
-                  <span>{`${item.id || ""}-${item.type || ""}-${
+                <div className="question-item">
+                  <div className="info">
+                    <p className="id">Id: {item.id}</p>
+                    {item.type && (
+                      <Tooltip enterDelay={1500} title={item.type}>
+                        <p className="type">Type: {item.type}</p>
+                      </Tooltip>
+                    )}
+                    {item.level && (
+                      <Tooltip enterDelay={1500} title={item.level}>
+                        <p className="level">Level: {item.level}</p>
+                      </Tooltip>
+                    )}
+                  </div>
+                  <Tooltip enterDelay={1500} title={item.question}>
+                    <p className="question">{parser(item.question)}</p>
+                  </Tooltip>
+                  {/*<span>{`${item.id || ""}-${item.type || ""}-${
                     item.level || ""
                   } : `}</span>
-                  {parser(item.question)}
+                  {parser(item.question)} */}
                 </div>
               );
               // return `${item.type || ""} - ${item.level || ""} : ${

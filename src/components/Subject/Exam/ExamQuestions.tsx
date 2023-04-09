@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ExamQuestion from "./ExamQuestion";
+import "../../../scss/ExamQuestions.scss";
 
 export interface IExamQuestionsProps {
   checkResult?: boolean;
@@ -38,14 +39,11 @@ export default function ExamQuestions({
       setAnserArr([...tempArr]);
     }
   }, [result]);
-  console.log(exam);
   return (
-    <div className="exam-content lg:mx-5 shadow-around bg-white pb-10 px-10">
-      <h2 className="header text-center text-2xl font-semibold pt-4">
-        {exam?.name}
-      </h2>
+    <div className="exam-question-comp">
+      <h2 className="title">{exam?.name}</h2>
       <div className="subject text-center text-xl font-medium mt-4">
-        Subject: {"Lop Cong trinh va xay dung"}
+        {/* subject Name */}
       </div>
       <form
         id="question-form"

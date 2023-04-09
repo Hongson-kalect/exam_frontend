@@ -1,5 +1,6 @@
 import * as React from "react";
 import parser from "html-react-parser";
+import "../../../scss/ExamQuestion.scss";
 export interface IExamQuestionProps {
   onClick: (e: any) => void;
   result?: any;
@@ -46,9 +47,9 @@ export default function ExamQuestion({
     }
   }, []);
   return (
-    <div>
-      <div className="question flex gap-x-1 items-center" id={index.toString()}>
-        <div className="question-number text-lg font-medium text-gray-700">
+    <div className="exam-question-comp">
+      <div className="question" id={index.toString()}>
+        <div className="question-number font-medium text-gray-700">
           <b>Question {index + 1}:</b> {parser(question.question)}
         </div>
 
@@ -62,58 +63,62 @@ export default function ExamQuestion({
         {result ? (
           <>
             {question.ansers[0] && (
-              <div className="anser-wrap basis-1/4 flex items-center justify-start">
-                <input
-                  type="radio"
-                  name={`anser-${index}`}
-                  id={"0-" + index}
-                  value="a"
-                  disabled
-                  checked={result.userAnser === "0"}
-                  className="basis-1/6 mr-2  h-5"
-                />
+              <div className="anser-wrap">
+                <div className="radio-wrap">
+                  <input
+                    type="radio"
+                    name={`anser-${index}`}
+                    id={"0-" + index}
+                    value="a"
+                    disabled
+                    checked={result.userAnser === "0"}
+                  />
+                </div>
                 <label htmlFor={"0-" + index}>{question.ansers[0]}</label>
               </div>
             )}
             {question.ansers[1] && (
-              <div className="anser-wrap basis-1/4 flex items-center justify-start">
-                <input
-                  type="radio"
-                  name={`anser-${index}`}
-                  id={"1-" + index}
-                  value="b"
-                  checked={result.userAnser === "1"}
-                  disabled
-                  className="basis-1/6 mr-2  h-5"
-                />
+              <div className="anser-wrap">
+                <div className="radio-wrap">
+                  <input
+                    type="radio"
+                    name={`anser-${index}`}
+                    id={"1-" + index}
+                    value="b"
+                    checked={result.userAnser === "1"}
+                    disabled
+                  />
+                </div>
                 <label htmlFor={"1-" + index}>{question.ansers[1]}</label>
               </div>
             )}
             {question.ansers[2] && (
-              <div className="anser-wrap basis-1/4 flex items-center justify-start">
-                <input
-                  type="radio"
-                  name={`anser-${index}`}
-                  id={"2-" + index}
-                  value="c"
-                  checked={result.userAnser === "2"}
-                  disabled
-                  className="basis-1/6 mr-2  h-5"
-                />
+              <div className="anser-wrap">
+                <div className="radio-wrap">
+                  <input
+                    type="radio"
+                    name={`anser-${index}`}
+                    id={"2-" + index}
+                    value="c"
+                    checked={result.userAnser === "2"}
+                    disabled
+                  />
+                </div>
                 <label htmlFor={"2-" + index}>{question.ansers[2]}</label>
               </div>
             )}
             {question.ansers[3] && (
-              <div className="anser-wrap basis-1/4 flex items-center justify-start">
-                <input
-                  type="radio"
-                  name={`anser-${index}`}
-                  id={"3-" + index}
-                  value="d"
-                  checked={result.userAnser === "3"}
-                  disabled
-                  className="basis-1/6 mr-2  h-5"
-                />
+              <div className="anser-wrap">
+                <div className="radio-wrap">
+                  <input
+                    type="radio"
+                    name={`anser-${index}`}
+                    id={"3-" + index}
+                    value="d"
+                    checked={result.userAnser === "3"}
+                    disabled
+                  />
+                </div>
                 <label htmlFor={"3-" + index}>{question.ansers[3]}</label>
               </div>
             )}
@@ -121,58 +126,62 @@ export default function ExamQuestion({
         ) : (
           <>
             {question.ansers[0] && (
-              <div className="anser-wrap basis-1/4 flex items-center justify-start">
-                <input
-                  type="radio"
-                  name={`anser-${index}`}
-                  id={"0-" + index}
-                  value="a"
-                  checked={userAnser === "a"}
-                  onChange={(e) => onClick(e)}
-                  className="basis-1/6 mr-2  h-5"
-                />
+              <div className="anser-wrap">
+                <div className="radio-wrap">
+                  <input
+                    type="radio"
+                    name={`anser-${index}`}
+                    id={"0-" + index}
+                    value="a"
+                    checked={userAnser === "a"}
+                    onChange={(e) => onClick(e)}
+                  />
+                </div>
                 <label htmlFor={"0-" + index}>{question.ansers[0]}</label>
               </div>
             )}
             {question.ansers[1] && (
-              <div className="anser-wrap basis-1/4 flex items-center justify-start">
-                <input
-                  type="radio"
-                  name={`anser-${index}`}
-                  id={"1-" + index}
-                  value="b"
-                  checked={userAnser === "b"}
-                  onChange={(e) => onClick(e)}
-                  className="basis-1/6 mr-2  h-5"
-                />
+              <div className="anser-wrap">
+                <div className="radio-wrap">
+                  <input
+                    type="radio"
+                    name={`anser-${index}`}
+                    id={"1-" + index}
+                    value="b"
+                    checked={userAnser === "b"}
+                    onChange={(e) => onClick(e)}
+                  />
+                </div>
                 <label htmlFor={"1-" + index}>{question.ansers[1]}</label>
               </div>
             )}
             {question.ansers[2] && (
-              <div className="anser-wrap basis-1/4 flex items-center justify-start">
-                <input
-                  type="radio"
-                  name={`anser-${index}`}
-                  id={"2-" + index}
-                  value="c"
-                  checked={userAnser === "c"}
-                  onChange={(e) => onClick(e)}
-                  className="basis-1/6 mr-2  h-5"
-                />
+              <div className="anser-wrap">
+                <div className="radio-wrap">
+                  <input
+                    type="radio"
+                    name={`anser-${index}`}
+                    id={"2-" + index}
+                    value="c"
+                    checked={userAnser === "c"}
+                    onChange={(e) => onClick(e)}
+                  />
+                </div>
                 <label htmlFor={"2-" + index}>{question.ansers[2]}</label>
               </div>
             )}
             {question.ansers[3] && (
-              <div className="anser-wrap basis-1/4 flex items-center justify-start">
-                <input
-                  type="radio"
-                  name={`anser-${index}`}
-                  id={"3-" + index}
-                  value="d"
-                  checked={userAnser === "d"}
-                  onChange={(e) => onClick(e)}
-                  className="basis-1/6 mr-2  h-5"
-                />
+              <div className="anser-wrap">
+                <div className="radio-wrap">
+                  <input
+                    type="radio"
+                    name={`anser-${index}`}
+                    id={"3-" + index}
+                    value="d"
+                    checked={userAnser === "d"}
+                    onChange={(e) => onClick(e)}
+                  />
+                </div>
                 <label htmlFor={"3-" + index}>{question.ansers[3]}</label>
               </div>
             )}

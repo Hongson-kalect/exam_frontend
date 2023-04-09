@@ -1,0 +1,39 @@
+.exam-question-comp {
+    .question {
+        display      : flex;
+        gap          : 0 4px;
+        align-items  : center;
+        margin-bottom: 4px;
+    }
+
+    .ansers {
+        display    : flex;
+        padding    : 0;
+        margin     : 0;
+        align-items: center;
+        font-size  : 13px;
+
+        .anser-wrap {
+            width          : 25%;
+            display        : flex;
+            align-items    : center;
+            margin         : 0 4px;
+            justify-content: start;
+
+            .radio-wrap {
+                width : 32px;
+                height: 100%;
+
+                input {
+                    margin-right: 8px;
+                    font-size   : 24px;
+                    height      : 20px;
+                    width       : 20px;
+                }
+            }
+
+
+            .label {}
+        }
+    }
+}

@@ -49,6 +49,9 @@ export function Login({ appState }: ILoginProps) {
   const togglePasswordVisible = () => {
     setIsShowPassword(!isShowPassword);
   };
+  React.useEffect(() => {
+    appState.setIsLoading(false);
+  }, []);
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-gradient-to-bl from-blue-700 to-green-500">
       <div className="flex flex-col border bg-white border-black w-4/12 h-5/6 rounded-lg p-4 bg-center bg-cover overflow-auto hide-scroll">

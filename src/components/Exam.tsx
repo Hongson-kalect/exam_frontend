@@ -11,6 +11,8 @@ import useTestingState from "../stores/testingState";
 import useUserState from "../stores/userState";
 import { IAppState } from "../stores/appState";
 
+import "../scss/Exam.scss";
+
 export interface IExamProps {
   appState: IAppState;
 }
@@ -162,8 +164,11 @@ export default function Exam({ appState }: IExamProps) {
       // run one time before setTimeout
       const date = new Date();
       const differTime = GetTimeDiffer(timeStart, date.toISOString());
-      const differTimeNumber = differTime + Number(limitTime) * 60;
-      if (differTimeNumber <= 0) handleSumbit();
+      let differTimeNumber = differTime + Number(limitTime) * 60;
+      if (differTimeNumber <= 0) {
+        differTimeNumber = 0;
+        handleSumbit();
+      }
       setTimeRemain(
         `${Math.floor(differTimeNumber / 3600)}:${Math.floor(
           (differTimeNumber % 3600) / 60
@@ -229,61 +234,53 @@ export default function Exam({ appState }: IExamProps) {
   }, [exam, userAnser]);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gray-200 p-4">
-      <div className="bg-white right-content lg:basis-2/12 basis-0 shadow-grow h-full  relative ml-4 flex flex-col">
-        <h3 className="text-center my-2">
-          Time remain: <span className="font-normal">{timeRemain}</span>
+    <div className="exam-comp">
+      <div className="left-content">
+        <h3 className="time">
+          Time remain: <span>{timeRemain}</span>
         </h3>
-        <div
-          className="flex-1 overflow-auto hide-scroll"
-          style={{ maxHeight: "85%" }}
-        >
-          <div className="flex flex-wrap gap-2 p-4 pt-0">
-            {result?.anser && result?.userAnser && anserArr.length > 0
-              ? userAnser &&
-                userAnser.map((item: any, index: any) => {
-                  const anserCorrect =
-                    (anserArr[index]?.split("-").indexOf("0") || 1) - 1;
-                  console.log(anserArr[index]);
-                  console.log(anserCorrect);
-                  console.log(result.userAnser[index]);
-                  return (
-                    <div key={index} className="flex flex-col gap-y-1 ">
-                      <div
-                        className={`inline-block w-5 h-5 ${
-                          anserCorrect === Number(result.userAnser[index])
-                            ? "bg-green-300"
-                            : "bg-red-400"
-                        } text-center`}
-                      >
-                        {item?.toUpperCase() || "?"}
-                      </div>
-                      <p className="text-center font-normal text-sm">
-                        {index + 1}
-                      </p>
+        <div className="anser-content hide-scroll">
+          {result?.anser && result?.userAnser && anserArr.length > 0
+            ? userAnser &&
+              userAnser.map((item: any, index: any) => {
+                const anserCorrect =
+                  (anserArr[index]?.split("-").indexOf("0") || 1) - 1;
+                return (
+                  <div key={index} className="flex flex-col gap-y-1 ">
+                    <div
+                      className={`inline-block w-5 h-5 ${
+                        anserCorrect === Number(result.userAnser[index])
+                          ? "bg-green-300"
+                          : "bg-red-400"
+                      } text-center`}
+                    >
+                      {item?.toUpperCase() || "?"}
                     </div>
-                  );
-                })
-              : userAnser &&
-                userAnser.map((item: any, index: any) => {
-                  return (
-                    <div key={index} className="flex flex-col gap-y-1 ">
-                      <div
-                        className={`inline-block w-5 h-5 ${
-                          item ? "bg-blue-300" : "bg-gray-200"
-                        } text-center`}
-                      >
-                        {item?.toUpperCase() || "?"}
-                      </div>
-                      <p className="text-center font-normal text-sm">
-                        {index + 1}
-                      </p>
+                    <p className="text-center font-normal text-sm">
+                      {index + 1}
+                    </p>
+                  </div>
+                );
+              })
+            : userAnser &&
+              userAnser.map((item: any, index: any) => {
+                return (
+                  <div key={index} className="flex flex-col gap-y-1 ">
+                    <div
+                      className={`inline-block w-5 h-5 ${
+                        item ? "bg-blue-300" : "bg-gray-200"
+                      } text-center`}
+                    >
+                      {item?.toUpperCase() || "?"}
                     </div>
-                  );
-                })}
-          </div>
+                    <p className="text-center font-normal text-sm">
+                      {index + 1}
+                    </p>
+                  </div>
+                );
+              })}
         </div>
-        <div className="absolute bottom-2 w-full">
+        <div className="button">
           <Button
             background="bg-primary"
             color="text-white"
@@ -296,7 +293,7 @@ export default function Exam({ appState }: IExamProps) {
           />
         </div>
       </div>
-      <div className="left-content flex-1  overflow-auto hide-scroll">
+      <div className="right-content flex-1  overflow-auto hide-scroll">
         {isCheckResult ? (
           <ExamQuestions
             checkResult={isCheckResult}

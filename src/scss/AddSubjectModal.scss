@@ -1,0 +1,33 @@
+.add-subject-modal {
+    .info {
+        display        : flex;
+        justify-content: left;
+        gap            : 4px;
+        font-weight    : bold;
+        font-size      : 14px;
+
+        p {
+            white-space  : nowrap;
+            overflow     : hidden;
+            text-overflow: ellipsis;
+        }
+
+        .id {
+            width: 10%;
+        }
+
+        .type {
+            width: 60%;
+        }
+
+        .level {
+            width: 30%;
+        }
+    }
+
+    .question {
+        white-space  : nowrap;
+        overflow     : hidden;
+        text-overflow: ellipsis;
+    }
+}
