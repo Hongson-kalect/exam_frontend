@@ -191,7 +191,7 @@ export function AddSubjectTestModal(props: IAddSubjectModalProps) {
         <div className="w-full">
           <Transfer
             dataSource={mockData}
-            titles={["Data", "Choosen"]}
+            titles={["Question List", "Choosen"]}
             showSearch
             filterOption={filterOption}
             targetKeys={targetKeys}
@@ -226,7 +226,7 @@ export function AddSubjectTestModal(props: IAddSubjectModalProps) {
               //   item.question ? parseHTML(item.question) : ""
               // }`;
             }}
-            listStyle={{ width: 600, height: 350 }}
+            listStyle={{ width: 550, height: 350 }}
           />
         </div>
         <Button type="primary" htmlType="submit" size="large">

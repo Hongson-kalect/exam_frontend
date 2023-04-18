@@ -80,15 +80,15 @@ export default function SubjectInfo(props: ISubjectInfoProps) {
 
   return (
     <div className="flex flex-col w-full">
-      <p className="text-3xl uppercase text-primary text-center">
-        Create a new Exam Room
+      <p className="text-lg uppercase text-primary text-center">
+        Subject Room Info
       </p>
       <Form
         form={form}
         name="create-info"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 14 }}
-        className="flex flex-col py-10 overflow-auto w-full"
+        className="flex flex-col py-4 overflow-auto w-full"
         autoComplete="off"
         initialValues={{
           name: "qqq",

@@ -142,7 +142,7 @@ export default function CreateExam(props: ICreateNewTestProps) {
         >
           <Transfer
             dataSource={mockData}
-            titles={["Data", "Choosen"]}
+            titles={["Test list", "Choosen"]}
             showSearch
             filterOption={filterOption}
             targetKeys={targetKeys}

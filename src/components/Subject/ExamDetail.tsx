@@ -256,11 +256,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
         </div>
         <div className="desc">
           <p className="font-semibold">Description: </p>
-          {testRoomDetail.description}alsjd ajsd askdasd lkasjda alsjd ajsd
-          askdasd lkasjda alsjd ajsd askdasd lkasjda alsjd ajsd askdasd lkasjda
-          alsjd ajsd askdasd lkasjda alsjd ajsd askdasd lkasjda alsjd ajsd
-          askdasd lkasjda alsjd ajsd askdasd lkasjda alsjd ajsd askdasd lkasjda
-          alsjd ajsd askdasd lkasjda
+          {testRoomDetail.description || "Không có mô tả"}
         </div>
       </div>
 

@@ -65,7 +65,7 @@ export default function SignUp(props: ISignUpProps) {
     // router.push("/");
   };
   return (
-    <div className="flex items-center justify-center w-screen h-full bg-gradient-to-bl from-blue-700 to-green-500">
+    <div className="flex items-center justify-center w-screen h-screen bg-gradient-to-bl from-blue-700 to-green-500">
       <div className="flex flex-col border bg-white border-black w-6/12 h-full rounded-lg p-4 bg-center bg-cover overflow-auto hide-scroll">
         <p className="text-center font-semibold text-3xl text-green-400">
           SIGN UP
