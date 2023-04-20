@@ -84,6 +84,31 @@ export default function Exam({ appState }: IExamProps) {
       }
     } else toast.error(getUnsubmit.message);
   };
+  const CheckResult = async () => {
+    appState.setIsLoading(true);
+    const getResult = await fetchData(
+      "history/check-result?historyId=" +
+        examState.historyId +
+        "&subjectId=" +
+        examState.subjectId +
+        "&userId=" +
+        userState.userId,
+      "get"
+    );
+    appState.setIsLoading(false);
+    if (getResult.status === 1) {
+      if (getResult.data) {
+        setTimeStart(getResult.data.createdAt);
+
+        appState.setIsLoading(false);
+        setUserAnser(getResult.data.userAnserChar);
+        setIsCheckResult(true);
+        setResult(getResult.data);
+      } else {
+        setIsContinue(false);
+      }
+    }
+  };
 
   const getExam = async () => {
     appState.setIsLoading(true);
@@ -189,23 +214,21 @@ export default function Exam({ appState }: IExamProps) {
     return () => clearInterval(interval);
   }, [limitTime, timeStart, result]);
   React.useEffect(() => {
-    checkUnSubmit();
+    if (examState.state === "check") CheckResult();
+  }, []);
+  React.useEffect(() => {
+    if (examState.state !== "check") checkUnSubmit();
   }, []);
 
   useEffect(() => {
-    if (!isContinue) getExam();
+    if (examState.state !== "check" && !isContinue) getExam();
   }, [isContinue]);
 
   React.useEffect(() => {
     const tempArr = [];
-    if (
-      exam?.questions?.length &&
-      exam?.questions?.length > 0 &&
-      exam.userAnser
-    ) {
-      console.log(exam);
+    if (exam?.questions?.length && exam?.questions?.length > 0) {
       for (let index = 0; index < exam?.questions.length; index++) {
-        if (userAnser[index] || exam.userAnser[index])
+        if (userAnser?.[index] || exam.userAnser?.[index])
           tempArr[index] = userAnser[index] || exam.userAnser[index];
         else tempArr[index] = "";
       }
@@ -254,7 +277,7 @@ export default function Exam({ appState }: IExamProps) {
                           : "bg-red-400"
                       } text-center`}
                     >
-                      {item?.toUpperCase() || "?"}
+                      {item?.toUpperCase() || " "}
                     </div>
                     <p className="text-center font-normal text-sm">
                       {index + 1}
@@ -271,7 +294,7 @@ export default function Exam({ appState }: IExamProps) {
                         item ? "bg-blue-300" : "bg-gray-200"
                       } text-center`}
                     >
-                      {item?.toUpperCase() || "?"}
+                      {item?.toUpperCase() || " "}
                     </div>
                     <p className="text-center font-normal text-sm">
                       {index + 1}

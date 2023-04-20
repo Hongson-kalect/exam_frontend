@@ -10,6 +10,7 @@ import { v4 } from "uuid";
 import { toast } from "react-toastify";
 import useExamState from "../../stores/examStates";
 import useUserState from "../../stores/userState";
+import { Header } from "../../layout/Header";
 // import { FormInstance, use`Form } from "antd/es/form/Form";
 
 export interface ISubjectProps {}
@@ -96,8 +97,9 @@ export function Subject(props: ISubjectProps) {
           <Spin size="large" />
         </div>
       )}
-      <main className="flex items-start justify-center h-full w-full">
-        <div className="subject-contain items-start flex flex-col h-full w-full overflow-auto hide-scroll">
+      <main className="flex flex-col items-start justify-center h-full w-full">
+        <Header />
+        <div className="subject-contain flex-1 items-start flex flex-col w-full overflow-auto hide-scroll">
           <div className="flex w-full justify-center mt-2 mr-2">
             <div
               onClick={() => setAddModalOpen(true)}
@@ -117,7 +119,7 @@ export function Subject(props: ISubjectProps) {
             </div>
           </div>
           <div className="flex flex-wrap items-start px-8 py-2 justify-start w-full">
-            {subjects.length > 0 ? (
+            {(subjects?.length || 0) > 0 ? (
               subjects?.map((subject: any) => {
                 return (
                   <div

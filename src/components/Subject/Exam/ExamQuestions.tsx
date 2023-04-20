@@ -33,6 +33,7 @@ export default function ExamQuestions({
   //   };
   useEffect(() => {
     if (result) {
+      console.log(result);
       const tempArr = result.anser
         .split("|")
         .filter((item: string) => item !== "");

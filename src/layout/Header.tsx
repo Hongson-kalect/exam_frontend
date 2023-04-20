@@ -16,7 +16,7 @@ export function Header(props: IHeaderProps) {
     navigate("/login");
   };
   return (
-    <div className="top-nav">
+    <div className="top-nav bg-gray-300">
       <div className="flex left app-name">exam application</div>
       {/* <div className="notify p-1 text-center w-1/2 h-full overflow-auto hide-scroll"></div> */}
       <div className="flex right">

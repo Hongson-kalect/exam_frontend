@@ -1,11 +1,23 @@
 import { Button } from "antd";
 import * as React from "react";
+import useExamState from "../../../stores/examStates";
+import { useNavigate } from "react-router-dom";
 
 export interface ISeeHistoryProps {
   history: any;
 }
 
 export function SeeHistory({ history }: ISeeHistoryProps) {
+  console.log("history", history);
+  const navigate = useNavigate();
+  const examState = useExamState();
+  const handleCheckResult = (id: string) => {
+    if (history.allowSeeResult) {
+      examState.setHistoryId(id);
+      examState.setState("check");
+      navigate("/exam");
+    } else alert("See Result Is Not Allowed");
+  };
   return (
     <div className="text-center flex flex-col gap-y-4">
       {history.score.total && (
@@ -21,7 +33,7 @@ export function SeeHistory({ history }: ISeeHistoryProps) {
         </div>
       )}
       {history.allowSeeResult && (
-        <div onClick={() => alert("not available yet")}>
+        <div onClick={() => handleCheckResult(history.id)}>
           <Button
             size="large"
             className="bg-primary text-lg text-white font-semibold hover:!bg-blue-900 hover:scale-110 duration-150"

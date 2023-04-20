@@ -85,7 +85,6 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
     );
     appState.setIsLoading(false);
     setTestRoomDetail(fetchRes.data);
-    console.log(fetchRes.data);
   };
   const getHistory = async () => {
     appState.setIsLoading(true);
@@ -222,6 +221,7 @@ export default function TestRoomDetail(props: ICreateNewTestProps) {
   };
 
   React.useEffect(() => {
+    examState.setState("exam");
     getDetail();
     checkUnSubmit();
   }, []);

@@ -183,18 +183,10 @@ select {
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .correct {
-  background-image: linear-gradient(
-    to right,
-    rgba(10, 227, 90, 0.3),
-    transparent
-  );
+  background-color: rgb(109 228 118 / 80%);
 }
 .wrong {
-  background-image: linear-gradient(
-    to right,
-    rgba(218, 20, 20, 0.3),
-    transparent
-  );
+  background-color: rgb(255 139 139 / 80%);
 }
 .more div {
   display: none;
